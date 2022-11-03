@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.decorators.cache import never_cache
+from django.views.generic import TemplateView
+
+index_view = TemplateView.as_view(template_name='index.html')
 
 urlpatterns = [
+    path('', index_view, name='index'),
     path('not_named/', include('not_named.urls')),
     path('admin/', admin.site.urls)
 ]

@@ -10,7 +10,7 @@
       <button class="button-87" role="button" onclick="window.location.href='https://vuejs.org';">Register</button>
     </ul>
     <ul>
-      <div>Already having an account? Try&nbsp</div><a href="http://router.vuejs.org/">login</a>
+      <div>Already having an account? Try&nbsp;</div><a href="http://router.vuejs.org/">login</a>
     </ul>
   </div>
 </template>
@@ -19,9 +19,9 @@
 export default {
   name: 'app',
   data () {
-    return {
+    return { 
       mainPageMSG1: 'Welcome to InfluCo!',
-      mainPageMSG2: 'The world\’s most powerful influencer analysis platform'
+      mainPageMSG2: 'The world’s most powerful influencer analysis platform'
     }
   }
 }
@@ -59,7 +59,7 @@ h1, h2 {
 ul {
   padding: 0;
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 
 a {
@@ -98,3 +98,30 @@ a {
 }
 
 </style>
+
+<!-- <template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style> -->
