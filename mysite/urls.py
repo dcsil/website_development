@@ -22,6 +22,6 @@ index_view = TemplateView.as_view(template_name='index.html')
 
 urlpatterns = [
     path('', index_view, name='index'),
-    path('not_named/', include('not_named.urls')),
+    path('influco.api/', include('not_named.urls')),
     path('admin/', admin.site.urls)
 ]
