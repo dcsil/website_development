@@ -25,6 +25,7 @@ if IS_HEROKU:
 else:
     ALLOWED_HOSTS = []
 
+DEBUG = True
 # SECURITY WARNING: don't run with debug turned on in production!
 if not IS_HEROKU:
     DEBUG = True
@@ -71,7 +72,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend/dist')],
+        'DIRS': [os.path.join(BASE_DIR, 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,9 +139,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PROJECT_ROOT = BASE_DIR
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/dist/static"),
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, "dist/static"),
+#]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'dist/static'), )
 
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
