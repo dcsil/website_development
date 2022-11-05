@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
@@ -23,5 +23,7 @@ index_view = TemplateView.as_view(template_name='index.html')
 urlpatterns = [
     path('', index_view, name='index'),
     path('influco.api/', include('not_named.urls')),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+
+    re_path(r'^', include('Influencer_Web.urls')),
 ]
