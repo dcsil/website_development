@@ -11,7 +11,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "postinstall": "npm run build",
-    "test": "vitest",
+    "test": "vitest --watch false",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
