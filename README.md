@@ -16,6 +16,6 @@ Test backend
 run `pytest ./test_flask` to test backend
 
 Test frontend
-run `npm install -D vitest` to install vitest
-run `npm install @vitejs/plugin-vue jsdom @vue/test-utils -D` to add plugin
+run `npm install -D vitest` to install vitest  
+run `npm install @vitejs/plugin-vue jsdom @vue/test-utils -D` to add plugin  
 run `npm run test` to test frontend
