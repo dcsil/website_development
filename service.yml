@@ -14,5 +14,5 @@ docs:
 commands:
   bootstrap: script/bootstrap
   database: https://cloud.mongodb.com/v2/634c874a2bd7d42413638b8e#metrics/replicaSet/634c87aeaa7c7d2c010a925b/explorer/Influencer_Web
-  server: npm start
+  server: npm run start
   test: npm run test
