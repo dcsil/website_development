@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Exit if any subcommand fails
+set -e
+
+DIR=$PWD
+
+#RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+#NO_COLOR='\033[0m'
+#CLEAR_LINE='\r\033[K'
+
+# pwd
+echo "${GREEN}==> Installing client npm dependencies ==========================="
+npm install
+
+# pwd
+echo "${YELLOW}==> Installing server python dependencies ======================="
+#python3 -m venv myvenv
+#. myvenv/bin/activate
+pip3 install -r requirements.txt
