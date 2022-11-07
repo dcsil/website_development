@@ -1,4 +1,5 @@
 tools:
+  logging: https://service.us2.sumologic.com/ui/?appName=influco-web
   ci: https://github.com/dcsil/website_development/blob/deploy_try/.github/workflows/main.yml
 
 services:
@@ -6,9 +7,8 @@ services:
 
 docs:
   getting_started: https://github.com/dcsil/website_development/tree/master
-  
+
 commands:
   bootstrap: script/bootstrap
   server: npm install
-  backend_test: python3 -m pytest
-  frontend_test: npm run test
+  test: npm run test
