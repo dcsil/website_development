@@ -4,6 +4,16 @@ website frontend and backend
 # Frontend: Vue
 run `npm install`(automatically `npm run build` after)
 
-# Backend: Django -> Python  
-run `python manage.py runserver` and 
-see `http://127.0.0.1:8000/not_named/` for landing page.
+# Backend: Flask -> Python  
+### setup
+run `pip3 install -r requirements.txt`
+
+### debug mode develop
+run `flask --debug run` and see the instruction for landing page.
+
+### test
+Test backend
+run `pytest ./test_flask` to test backend
+
+Test frontend
+run `npm run test` to test frontend
