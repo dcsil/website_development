@@ -18,5 +18,5 @@ npm install
 # pwd
 echo "${YELLOW}==> Installing server python dependencies ======================="
 python3 -m venv myvenv
-source myvenv/bin/activate
+. myvenv/bin/activate
 pip3 install -r requirements.txt
