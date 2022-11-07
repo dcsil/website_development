@@ -1,0 +1,18 @@
+tools:
+  exceptions:
+    backend: https://sentry.io/organizations/dcsil/projects/influco_web_backend/?project=6741779
+    frontend: https://sentry.io/organizations/dcsil/projects/influco_web_frontend/?project=4504119925145600
+  logging: https://service.us2.sumologic.com/ui/?appName=influco-web
+  ci: https://github.com/dcsil/website_development/blob/deploy_try/.github/workflows/main.yml
+
+services:
+  production: https://dashboard.heroku.com/apps/influco-web
+
+docs:
+  getting_started: https://github.com/dcsil/website_development/tree/master
+
+commands:
+  bootstrap: script/bootstrap
+  database: https://cloud.mongodb.com/v2/634c874a2bd7d42413638b8e#metrics/replicaSet/634c87aeaa7c7d2c010a925b/explorer/Influencer_Web
+  server: npm run start
+  test: npm run test
