@@ -12,4 +12,10 @@ run `pip3 install -r requirements.txt`
 run `flask --debug run` and see the instruction for landing page.
 
 ### test
-run `pytest ./test_flask`
+Test backend
+run `pytest ./test_flask` to test backend
+
+Test frontend
+run `npm install -D vitest` to install vitest
+run `npm install @vitejs/plugin-vue jsdom @vue/test-utils -D` to add plugin
+run `npm run test` to test frontend
