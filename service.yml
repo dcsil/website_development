@@ -1,0 +1,14 @@
+tools:
+  ci: https://github.com/dcsil/website_development/blob/deploy_try/.github/workflows/main.yml
+
+services:
+  production: https://dashboard.heroku.com/apps/influco-web
+
+docs:
+  getting_started: https://github.com/dcsil/website_development/tree/master
+  
+commands:
+  bootstrap: script/bootstrap
+  server: npm install
+  backend_test: python3 -m pytest
+  frontend_test: npm run test
