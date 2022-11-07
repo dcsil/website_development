@@ -6,6 +6,7 @@
   },
   "private": true,
   "scripts": {
+    "start": "gunicorn influco_web:app",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
