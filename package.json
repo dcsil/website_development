@@ -1,32 +1,33 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "engines": {
-    "node": "16.x"
-  },
   "private": true,
   "scripts": {
-    "start": "gunicorn influco_web:app",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "coverage": "vitest run --coverage",
     "postinstall": "npm run build",
-    "test": "vitest --watch false && python3 -m pytest test_flask",
-    "coverage": "vitest run --coverage"
+    "start": "gunicorn influco_web:app",
+    "test": "vitest --watch false && python3 -m pytest test_flask"
   },
   "dependencies": {
+    "@sentry/tracing": "^7.17.4",
+    "@sentry/vue": "^7.17.4",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/test-utils": "^2.2.1",
     "core-js": "^3.8.3",
     "jsdom": "^20.0.2",
     "vitest": "^0.24.5",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
@@ -50,5 +51,8 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "engines": {
+    "node": "16.x"
+  }
 }
