@@ -2,7 +2,8 @@
 website frontend and backend
 
 ### Setup environment and dependencies
-1. `./script/bootstrap`
+1. run `chmod +x script/bootstrap`
+2. run `./script/bootstrap`
 
 ### Setup alternative (if already has python3.10 and node.js)
 #### Frontend: Vue
