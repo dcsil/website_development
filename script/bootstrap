@@ -10,16 +10,18 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m']
 CLEAR_LINE='\r\033[K'
 
-# pwd
-echo "${RED}==> Installing nodejs and npm ======================================"
-cd ~
-curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
-sudo bash /tmp/nodesource_setup.sh
-sudo apt install nodejs
-sudo apt install npm
+"${RED}==> Installing Homebrew for nodejs and python ==========================="
+echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-echo "${CLEAR_LINE}==> Installing Python3.10 ==================================="
-sudo apt install python3.10
+# pwd
+echo "${CLEAR_LINE}==> Installing nodejs =============================================="
+sudo brew install node@16
+
+echo "${CLEAR_LINE}==> Installing Python3.10 via Homebrew ======================"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+sudo brew install python@3.10
 
 # pwd
 echo "${GREEN}==> Installing client npm dependencies ==========================="
