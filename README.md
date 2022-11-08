@@ -1,19 +1,33 @@
 # website_development
 website frontend and backend
 
-# Frontend: Vue
+### Setup environment and dependencies
+1. `./script/bootstrap`
+
+### Setup alternative (if already has python3.10 and node.js)
+#### Frontend: Vue
 run `npm install`(automatically `npm run build` after)
 
-# Backend: Flask -> Python  
-### setup
+#### Backend: Flask -> Python  
 run `pip3 install -r requirements.txt`
 
-### debug mode develop
-run `flask --debug run` and see the instruction for landing page.
-
 ### test
-Test backend
+1. test both frontend and backend:
+run `num run test`  
+
+2. Test backend
 run `pytest ./test_flask` to test backend
 
-Test frontend
-run `npm run test` to test frontend
+3. Test frontend
+run `vitest --watch false` to test frontend
+
+### server
+1. run `num run start` for integrated frontend and backend  
+
+2. run `npm run serve` for frontend development
+
+3. run `flask (--debug run)` for backend development
+
+
+
+
