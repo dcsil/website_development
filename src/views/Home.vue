@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="../assets/INFLUCO.jpg">
+    <!-- <img src="../assets/INFLUCO.jpg"> -->
     <h1><strong>{{ mainPageMSG1 }}</strong></h1>
     <h2><strong>{{ mainPageMSG2 }}</strong></h2>
     <ul>
@@ -34,7 +34,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 5%;
 }
 
 body {
