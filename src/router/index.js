@@ -4,6 +4,8 @@ import About from "@/views/AboutView.vue";
 import Search from "@/views/SearchView.vue";
 import Popular from "@/views/PopularView.vue";
 import Dashboard from "@/views/DashboardView.vue";
+import Login from "@/views/LoginView.vue";
+import Register from "@/views/RegisterView.vue";
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
   }
 ];
 
