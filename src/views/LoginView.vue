@@ -3,9 +3,9 @@
         <form @submit.prevent="loginWithPassword" class="login">
             <div>
                 <label class="login-prompt">
-                    Email or username:
+                    Username:
                 </label>
-                <input type="text" v-model="emailOrUsername" class="login-input" />
+                <input type="text" v-model="username" class="login-input" />
             </div>
             <div>
                 <label class="login-prompt">
@@ -17,27 +17,18 @@
             <br>
         </form>
         <div id="alert" v-if="alert">{{ alert }}</div>
-        <div class="button-register">New to InfluCo? Try&nbsp;<router-link to="/register">Register</router-link></div>
+        <div class="button-register">New to InfluCo? Try&nbsp;<router-link to="/register">Register</router-link>
+        </div>
     </div>
 </template>
 
 <script>
-// Initialize Userfront
-import Userfront from "@userfront/core";
-Userfront.init("demo1234");
-
-// If the URL contains token & uuid params, log in
-if (
-  document.location.search.includes("token=") &&
-  document.location.search.includes("uuid=")
-) {
-  Userfront.login({ method: "link" });
-}
+import axios from 'axios';
 
 export default {
     data() {
         return {
-            emailOrUsername: "",
+            username: "",
             password: "",
             alert: "",
         };
@@ -45,12 +36,21 @@ export default {
     methods: {
         loginWithPassword() {
             this.alert = "";
-            Userfront.login({
-                method: "password",
-                emailOrUsername: this.emailOrUsername,
+            const path = 'http://127.0.0.1:8000/influco.api/login' + '/' + this.username
+            axios.post(path, {
+                username: this.username,
                 password: this.password,
-            }).catch((error) => {
-                this.alert = error.message;
+            }
+            ).then(response => {
+                if (response.data.status == 'fail') {
+                    this.alert = 'incorrect password'
+                } else if (response.data.status == "success") {
+                    this.$router.push('/dashboard')
+                } else {
+                    console.log('error')
+                }
+            }).catch(err => {
+                console.log(err);
             });
         },
     },
@@ -88,6 +88,6 @@ div {
     display: inline-block;
     margin-top: 30px;
     padding: 5px 15px;
-    font-size:medium;
+    font-size: medium;
 }
 </style>
