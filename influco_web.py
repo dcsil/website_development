@@ -75,6 +75,19 @@ def get_one_influencer(influencer_id):
     return jsonify(res)
 
 
+@app.route('/influco.api/tag/<string:tag_str>', methods=['get'])
+def get_influencers_by_tag(influencer_id):
+    """return a influencers list by searching a specific tags"""
+    try:
+        # TODO: return a influencers list by searching a specific tags
+        # If no influence have the searching tags return empty list
+        res = []
+        # Return error if and only if connection error
+    except Exception:
+        return jsonify("error")
+    return jsonify(res)
+
+
 @app.route('/influco.api/user/<string:username>', methods=['get'])
 def get_one_user(username):
     """get info for one user"""

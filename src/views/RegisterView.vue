@@ -54,9 +54,9 @@ export default {
                 password: this.password,
             }
             ).then(response => {
-                if (response.data.status == 'fail') {
+                if (response.data.status === 'fail') {
                     this.alert = 'Username already exist!'
-                } else if (response.data.status == "success") {
+                } else if (response.data.status === "success") {
                     this.$router.push('/dashboard')
                 } else {
                     console.log('error')
