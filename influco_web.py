@@ -3,7 +3,7 @@ import os
 import sentry_sdk
 from bson import ObjectId
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask.json import JSONEncoder
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -45,14 +45,15 @@ def trigger_error():
     division_by_zero = 1 / 0
 
 
-# Set up the index route
-@app.route('/')
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path>')  # frontend route
+def index(path):
     return app.send_static_file('index.html')
 
 
-@app.route('/influco.api', methods=['get'])
-def hello_backend():
+@app.route('/influco.api', defaults={'path': ''}, strict_slashes=False)
+@app.route('/influco.api/<path>', methods=['get'])
+def hello_backend(path):
     """create new order"""
     try:
         number = request.args.get("number")
