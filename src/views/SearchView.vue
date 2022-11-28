@@ -1,6 +1,5 @@
 <template>
     <div class="search">
-<!--        <h1>This is a search page</h1>-->
         <div class="searchBox">
             <label>
                 <input type="text" v-model="tag" class="searchInputBox" placeholder="Type any tag to search">
@@ -116,7 +115,6 @@ export default {
     data() {
         return {
             tag: "",
-            // searchInput: "",
             influencers: ["x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"],
             startIndex: 1,
             left: false,
@@ -189,8 +187,6 @@ export default {
 .searchButton:hover {
     color: purple;
 }
-
-
 
 .singleAuthor1{
     margin-left: 5%;
