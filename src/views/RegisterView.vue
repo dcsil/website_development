@@ -3,15 +3,9 @@
         <form @submit.prevent="signupWithPassword" class="register">
             <div>
                 <label class="register-prompt">
-                    Email address:
+                    Username:
                 </label>
-                <input type="text" v-model="email" class="register-input" />
-            </div>
-            <div>
-                <label class="register-prompt">
-                    Account name:
-                </label>
-                <input type="text" v-model="accountName" class="register-input" />
+                <input type="text" v-model="username" class="register-input" />
             </div>
             <div>
                 <label class="register-prompt">
@@ -34,23 +28,12 @@
 </template>
 
 <script>
-// Initialize Userfront
-import Userfront from "@userfront/core";
-Userfront.init("demo1234");
-
-// If the URL contains token & uuid params, log in
-if (
-  document.location.search.includes("token=") &&
-  document.location.search.includes("uuid=")
-) {
-  Userfront.login({ method: "link" });
-}
+import axios from 'axios';
 
 export default {
     data() {
         return {
-            email: "",
-            accountName: "",
+            username: "",
             password: "",
             passwordVerify: "",
             alert: "",
@@ -65,15 +48,21 @@ export default {
                 this.alert = "Passwords must match";
                 return;
             }
-            Userfront.signup({
-                method: "password",
-                email: this.email,
+            const path = 'http://127.0.0.1:8000/influco.api/register' + '/' + this.username
+            axios.post(path, {
+                username: this.username,
                 password: this.password,
-                data: {
-                    accountName: this.accountName,
-                },
-            }).catch((error) => {
-                this.alert = error.message;
+            }
+            ).then(response => {
+                if (response.data.status === 'fail') {
+                    this.alert = 'Username already exist!'
+                } else if (response.data.status === "success") {
+                    this.$router.push('/dashboard')
+                } else {
+                    console.log('error')
+                }
+            }).catch(err => {
+                console.log(err);
             });
         },
     },

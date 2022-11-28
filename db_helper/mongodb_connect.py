@@ -83,7 +83,7 @@ def get_all_influencer():
 
 # user collection query
 def get_one_user(username: str):
-    query = user_col.find_one({"name": username})
+    query = user_col.find_one({"username": username})
     return query
 
 
@@ -94,14 +94,14 @@ def insert_one_user(user_info: dict):
 
 def update_one_user(user_info):
     # check if already store in DB
-    username = user_info["name"]
+    username = user_info["username"]
 
     query = get_one_user(username)
     # exists, update
     if query:
         pass
     # insert
-    user_col.replace_one({"name": username}, user_info)
+    user_col.replace_one({"username": username}, user_info)
     return "Success"
 
 
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     print(DB.list_collection_names())
     #
     # SAMPLE_USER = {
-    #     "name": "user1",
+    #     "username": "user1",
     #     "password": "pass1",
     #     "likes": [],
     #     "history": []
