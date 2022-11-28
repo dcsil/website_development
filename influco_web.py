@@ -4,8 +4,9 @@ import sentry_sdk
 from bson import ObjectId
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
-from flask.json import JSONEncoder
+# from flask.json import JSONEncoder
 from sentry_sdk.integrations.flask import FlaskIntegration
+from flask.json.provider import JSONProvider
 
 import db_helper.mongodb_connect as dbc
 
@@ -28,7 +29,7 @@ app = Flask(__name__, static_folder='dist/', static_url_path='/')
 
 
 # json load of mongodb file
-class MongoJSONEncoder(JSONEncoder):
+class MongoJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
             return str(o)
@@ -36,7 +37,16 @@ class MongoJSONEncoder(JSONEncoder):
             return super().default(o)
 
 
-app.json_encoder = MongoJSONEncoder
+class MongoJSONProvider(JSONProvider):
+    def dumps(self, obj, **kwargs):
+        return json.dumps(obj, **kwargs, cls=MongoJSONEncoder)
+
+    def loads(self, s, **kwargs):
+        return json.loads(s)
+
+
+# app.json_encoder = MongoJSONEncoder
+app.json = MongoJSONProvider(app)
 
 
 # sentry verification
@@ -66,7 +76,7 @@ def hello_backend():
 
 @app.route('/influco.api/influencer/<string:influencer_id>', methods=['get'])
 def get_one_influencer(influencer_id):
-    """create new order"""
+    """return one influencer by id"""
     try:
         # number = request.args.get("influencer_id")
         res = dbc.get_one_influencer(influencer_id)
@@ -76,7 +86,7 @@ def get_one_influencer(influencer_id):
 
 
 @app.route('/influco.api/tag/<string:tag_str>', methods=['get'])
-def get_influencers_by_tag(influencer_id):
+def get_influencers_by_tag(tag_str):
     """return a influencers list by searching a specific tags"""
     try:
         # TODO: return a influencers list by searching a specific tags
@@ -102,7 +112,7 @@ def get_one_user(username):
 @app.route('/influco.api/register/<string:username>', methods=['post'])
 def register(username):
     """get info for one user"""
-    response_object = {'status':'fail'}
+    response_object = {'status': 'fail'}
     try:
         if request.method == "POST":
             user_info = request.get_json()
@@ -123,7 +133,7 @@ def register(username):
 
 @app.route('/influco.api/login/<string:username>', methods=['post'])
 def login(username):
-    response_object = {'status':'fail'}
+    response_object = {'status': 'fail'}
     try:
         if request.method == "POST":
             user_info = request.get_json()
@@ -136,11 +146,11 @@ def login(username):
             user_info = dbc.get_one_user(data["username"])
             ############## will be replaced ##############
             if user_info['password'] != data["password"]:
-            ##############################################
+                ##############################################
                 return jsonify(response_object)
             response_object['status'] = 'success'
     except Exception:
-        return jsonify({'status':'error'})
+        return jsonify({'status': 'error'})
     return jsonify(response_object)
 
 
