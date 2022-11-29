@@ -4,6 +4,7 @@ import sentry_sdk
 from bson import ObjectId
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+from flask_cors import *
 # from flask.json import JSONEncoder
 from sentry_sdk.integrations.flask import FlaskIntegration
 from flask.json.provider import JSONProvider
@@ -27,6 +28,7 @@ sentry_sdk.init(
 
 # Set up the app and point it to Vue
 app = Flask(__name__, static_folder='dist/', static_url_path='/')
+CORS(app, supports_credentials=True)
 
 
 # json load of mongodb file
@@ -49,6 +51,7 @@ class MongoJSONProvider(JSONProvider):
 # app.json_encoder = MongoJSONEncoder
 app.json = MongoJSONProvider(app)
 app.url_map.strict_slashes = False
+
 
 # sentry verification
 @app.route('/debug-sentry')
@@ -111,23 +114,22 @@ def get_one_user(username):
     return jsonify(res)
 
 
-@app.route('/influco.api/register/<string:username>', methods=['post'])
+@app.route('/influco.api/register/<string:username>', methods=['put'])
 def register(username):
     """get info for one user"""
     response_object = {'status': 'fail'}
     try:
-        if request.method == "POST":
-            user_info = request.get_json()
-            data = {
-                "username": user_info.get('username'),
-                "password": user_info.get('password'),
-            }
-            # create if username not exist in db
-            user = dbc.get_one_user(data["username"])
-            if not user:
-                data["likes"], data["history"] = [], []
-                dbc.insert_one_user(data)
-                response_object['status'] = 'success'
+        user_info = request.get_json()
+        data = {
+            "username": user_info.get('username'),
+            "password": user_info.get('password'),
+        }
+        # create if username not exist in db
+        user = dbc.get_one_user(data["username"])
+        if not user:
+            data["likes"], data["history"] = [], []
+            dbc.insert_one_user(data)
+            response_object['status'] = 'success'
     except Exception:
         return jsonify("Error")
     return jsonify(response_object)
@@ -137,20 +139,21 @@ def register(username):
 def login(username):
     response_object = {'status': 'fail'}
     try:
-        if request.method == "POST":
-            user_info = request.get_json()
-            data = {
-                "username": user_info.get('username'),
-                "password": user_info.get('password'),
-            }
-            if not dbc.get_one_user(data["username"]):
-                return jsonify(response_object)
-            user_info = dbc.get_one_user(data["username"])
-            ############## will be replaced ##############
-            if user_info['password'] != data["password"]:
-                ##############################################
-                return jsonify(response_object)
-            response_object['status'] = 'success'
+        user_info = request.get_json()
+        data = {
+            "username": user_info.get('username'),
+            "password": user_info.get('password'),
+        }
+        user_info = dbc.get_one_user(data["username"])
+        if not user_info:
+            return jsonify(response_object)
+        ############## will be replaced ##############
+        if user_info['password'] != data["password"]:
+            ##############################################
+            return jsonify(response_object)
+        response_object['status'] = 'success'
+        # Frontend: get user data
+        response_object['data'] = user_info
     except Exception:
         return jsonify({'status': 'error'})
     return jsonify(response_object)
