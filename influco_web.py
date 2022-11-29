@@ -9,6 +9,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from flask.json.provider import JSONProvider
 
 import db_helper.mongodb_connect as dbc
+import db_helper.influ_da as da
 
 load_dotenv()
 
@@ -47,7 +48,7 @@ class MongoJSONProvider(JSONProvider):
 
 # app.json_encoder = MongoJSONEncoder
 app.json = MongoJSONProvider(app)
-
+app.url_map.strict_slashes = False
 
 # sentry verification
 @app.route('/debug-sentry')
@@ -63,11 +64,12 @@ def index(path):
     return app.send_static_file('index.html')
 
 
-@app.route('/influco.api', methods=['get'])
-def hello_backend():
-    """create new order"""
+@app.route('/influco.api', defaults={'path': ''})
+@app.route("/influco.api/<path>")
+def hello_backend(path):
+    """Backend landing page"""
     try:
-        number = request.args.get("number")
+        # number = request.args.get("number")
         res = "Hello, InfluCo backend!"
     except Exception:
         return jsonify("error")
@@ -89,9 +91,9 @@ def get_one_influencer(influencer_id):
 def get_influencers_by_tag(tag_str):
     """return a influencers list by searching a specific tags"""
     try:
-        # TODO: return a influencers list by searching a specific tags
-        # If no influence have the searching tags return empty list
-        res = []
+        all_influ = dbc.get_all_influencer()
+        match_list = da.get_match_influ(tag_str, all_influ)
+        res = match_list
         # Return error if and only if connection error
     except Exception:
         return jsonify("error")

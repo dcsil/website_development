@@ -78,7 +78,7 @@ def get_one_influencer(author_id: str):
 
 def get_all_influencer():
     query = influ_col.find()
-    return query
+    return list(query)
 
 
 # user collection query
