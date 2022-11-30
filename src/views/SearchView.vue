@@ -45,8 +45,8 @@
 <!--                <p>{{ influencers !== 0 && influencers[showAuthorIndex] !== null ? "Follower Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"] : "" }}</p>-->
                 <p v-if="flag(showAuthorIndex)">{{ "Follower Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"] }}</p>
 
-<!--                <p>{{ influencers !== 0 && influencers[showAuthorIndex] !== null ? "Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heartCount"] : "" }}</p>-->
-                <p v-if="flag(showAuthorIndex)">{{"Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heartCount"] }}</p>
+<!--                <p>{{ influencers !== 0 && influencers[showAuthorIndex] !== null ? "Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heart"] : "" }}</p>-->
+                <p v-if="flag(showAuthorIndex)">{{"Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heart"] }}</p>
 
 <!--                <p >{{ influencers !== 0 && influencers[showAuthorIndex] !== null ? "Video Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["videoCount"] : "" }}</p>-->
                 <p v-if="flag(showAuthorIndex)">{{"Video Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["videoCount"] }}</p>
@@ -61,7 +61,7 @@
 
                 <p v-if="flag(showAuthorIndex + 1)">{{ "Follower Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["followerCount"] }}</p>
 
-                <p v-if="flag(showAuthorIndex + 1)">{{"Like Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["heartCount"] }}</p>
+                <p v-if="flag(showAuthorIndex + 1)">{{"Like Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["heart"] }}</p>
 
                 <p v-if="flag(showAuthorIndex + 1)">{{"Video Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["videoCount"] }}</p>
 
@@ -75,7 +75,7 @@
 
                 <p v-if="flag(showAuthorIndex + 2)">{{ "Follower Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["followerCount"] }}</p>
 
-                <p v-if="flag(showAuthorIndex + 2)">{{"Like Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["heartCount"] }}</p>
+                <p v-if="flag(showAuthorIndex + 2)">{{"Like Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["heart"] }}</p>
 
                 <p v-if="flag(showAuthorIndex + 2)">{{"Video Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["videoCount"] }}</p>
 
@@ -179,7 +179,7 @@ export default {
                     });
                 } else if (this.selected === "Like Count: High to Low") {
                     this.influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["heartCount"] - a["author_stats"]["stats"]["heartCount"];
+                        return b["author_stats"]["stats"]["heart"] - a["author_stats"]["stats"]["heart"];
                     });
                 }
                 this.startIndex = 1;
