@@ -23,8 +23,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install requirements
-        run: npm install
-        run: pip3 install -r requirements.txt
+        run: npm install | pip3 install -r requirements.txt
       - name: Run tests
         run: npm run test
         env:
