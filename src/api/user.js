@@ -31,7 +31,10 @@ export function GetUser(username) {
   });
 }
 
-export function AddHistory(username) {
+export function AddHistory(username, influ_id) {
+const data = {
+    influ_id: influ_id,
+  };
   return service.request({
     method: 'post',
     url: `/history/${username}`,
@@ -46,7 +49,10 @@ export function ClearHistory(username) {
   });
 }
 
-export function AddLike(username) {
+export function AddLike(username, influ_id) {
+const data = {
+    influ_id: influ_id,
+  };
   return service.request({
     method: 'post',
     url: `/likes/${username}`,
@@ -54,7 +60,10 @@ export function AddLike(username) {
   });
 }
 
-export function RemoveLike(username) {
+export function RemoveLike(username, influ_id) {
+const data = {
+    influ_id: influ_id,
+  };
   return service.request({
     method: 'delete',
     url: `/likes/${username}`,
