@@ -219,7 +219,7 @@ export default {
             this.showAuthorIndex = 0;
 
             // const path = '/influco.api/tag/' + this.tag;
-            console.log(path);
+            // console.log(path);
             GetInfluencerByTag(this.tag).then(response => {
                 // TODO: what does this: if (response.data.status === "success") {} means?
                 this.influencers = response.data;
