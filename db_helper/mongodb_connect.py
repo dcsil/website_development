@@ -1,8 +1,9 @@
+import datetime
 import json
 import os
 from bson import ObjectId
 from dotenv import load_dotenv
-from typing import List, TypedDict
+from typing import List, Optional, TypedDict
 import certifi
 
 from pymongo import MongoClient
@@ -56,8 +57,8 @@ class InfluencerInfo(TypedDict):
 class UserInfo(TypedDict):
     name: str
     password: str
-    likes: List[str]
-    history: List[str]
+    likes: List[dict]
+    history: List[dict]
 
 
 client: MongoClient = MongoClient(DB_STR, tlsCAFile=certifi.where())
@@ -103,6 +104,59 @@ def update_one_user(user_info):
     # insert
     user_col.replace_one({"username": username}, user_info)
     return "Success"
+
+
+def update_user_history(username: str, influ_id: Optional[str], mode: str):
+    user_info = get_one_user(username)
+    time = datetime.datetime.now().timestamp()
+    if not user_info:
+        return "User not exist"
+
+    if mode == "delete":
+        user_info['history'] = []
+    else:
+        update = False
+        for i, history in enumerate(user_info['history']):
+            if history['influ_id'] == influ_id:
+                # update history by time
+                if mode == "post":
+                    history['time'] = time
+                    update = True
+                    break
+        if not update:
+            user_info['history'].append({
+                "influ_id": influ_id,
+                "time": time
+            })
+
+    update_one_user(user_info)
+    return user_info
+
+
+def update_user_likes(username: str, influ_id: str, mode: str):
+    user_info = get_one_user(username)
+    time = datetime.datetime.now().timestamp()
+    if not user_info:
+        return "User not exist"
+
+    for i, like_info in enumerate(user_info['likes']):
+        if like_info['influ_id'] == influ_id:
+            if mode == "post":
+                return "Like already exist"
+            elif mode == "delete":
+                user_info['likes'].pop(i)
+                update_one_user(user_info)
+                return user_info
+
+    if mode == 'post':
+        like_info = {
+            'influ_id': influ_id,
+            'time': time
+        }
+        user_info['likes'].append(like_info)
+        update_one_user(user_info)
+
+    return user_info
 
 
 if __name__ == '__main__':
