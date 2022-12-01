@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <img src="../assets/INFLUCO.jpg">
+    <!-- <img src="../assets/INFLUCO.jpg"> -->
     <h1><strong>{{ mainPageMSG1 }}</strong></h1>
     <h2><strong>{{ mainPageMSG2 }}</strong></h2>
     <ul>
-      <button class="button-87" role="button" onclick="window.location.href='https://vuejs.org';">Start Browse</button>
+      <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
     </ul>
     <ul>
-      <button class="button-87" role="button" onclick="window.location.href='https://vuejs.org';">Register</button>
+      <button class="button-87" role="button" onclick="window.location.href='/register';">Register</button>
     </ul>
     <ul>
-      <div>Already having an account? Try&nbsp;</div><a href="http://router.vuejs.org/">login</a>
+      <div>Already have an account? Try&nbsp;</div><a href="/login">login</a>
     </ul>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 5%;
 }
 
 body {
@@ -59,6 +59,7 @@ h2 {
 
 ul {
   padding: 0;
+  margin: 25px;
   display: flex;
   justify-content: center;
 }

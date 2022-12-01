@@ -4,10 +4,13 @@ import sentry_sdk
 from bson import ObjectId
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
-from flask.json import JSONEncoder
+from flask_cors import *
+# from flask.json import JSONEncoder
 from sentry_sdk.integrations.flask import FlaskIntegration
+from flask.json.provider import JSONProvider
 
 import db_helper.mongodb_connect as dbc
+import db_helper.influ_da as da
 
 load_dotenv()
 
@@ -25,10 +28,11 @@ sentry_sdk.init(
 
 # Set up the app and point it to Vue
 app = Flask(__name__, static_folder='dist/', static_url_path='/')
+CORS(app, supports_credentials=True)
 
 
 # json load of mongodb file
-class MongoJSONEncoder(JSONEncoder):
+class MongoJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
             return str(o)
@@ -36,7 +40,17 @@ class MongoJSONEncoder(JSONEncoder):
             return super().default(o)
 
 
-app.json_encoder = MongoJSONEncoder
+class MongoJSONProvider(JSONProvider):
+    def dumps(self, obj, **kwargs):
+        return json.dumps(obj, **kwargs, cls=MongoJSONEncoder)
+
+    def loads(self, s, **kwargs):
+        return json.loads(s)
+
+
+# app.json_encoder = MongoJSONEncoder
+app.json = MongoJSONProvider(app)
+app.url_map.strict_slashes = False
 
 
 # sentry verification
@@ -46,16 +60,19 @@ def trigger_error():
 
 
 # Set up the index route
-@app.route('/')
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route("/<path>")
+# @app.route("/popular")
+def index(path):
     return app.send_static_file('index.html')
 
 
-@app.route('/influco.api', methods=['get'])
-def hello_backend():
-    """create new order"""
+@app.route('/influco.api', defaults={'path': ''})
+@app.route("/influco.api/<path>")
+def hello_backend(path):
+    """Backend landing page"""
     try:
-        number = request.args.get("number")
+        # number = request.args.get("number")
         res = "Hello, InfluCo backend!"
     except Exception:
         return jsonify("error")
@@ -64,10 +81,23 @@ def hello_backend():
 
 @app.route('/influco.api/influencer/<string:influencer_id>', methods=['get'])
 def get_one_influencer(influencer_id):
-    """create new order"""
+    """return one influencer by id"""
     try:
         # number = request.args.get("influencer_id")
         res = dbc.get_one_influencer(influencer_id)
+    except Exception:
+        return jsonify("error")
+    return jsonify(res)
+
+
+@app.route('/influco.api/tag/<string:tag_str>', methods=['get'])
+def get_influencers_by_tag(tag_str):
+    """return a influencers list by searching a specific tags"""
+    try:
+        all_influ = dbc.get_all_influencer()
+        match_list = da.get_match_influ(tag_str, all_influ)
+        res = match_list
+        # Return error if and only if connection error
     except Exception:
         return jsonify("error")
     return jsonify(res)
@@ -84,20 +114,49 @@ def get_one_user(username):
     return jsonify(res)
 
 
-@app.route('/influco.api/user/<string:username>', methods=['post'])
-def register_one_user(username):
+@app.route('/influco.api/register/<string:username>', methods=['put'])
+def register(username):
     """get info for one user"""
-    res = "Empty username!"
+    response_object = {'status': 'fail'}
     try:
-        user_info = request.json
-        # create if not exist in db
-        if not dbc.get_one_user(username):
-            res = dbc.insert_one_user(user_info)
-        else:
-            res = "Username already exist!!!"
+        user_info = request.get_json()
+        data = {
+            "username": user_info.get('username'),
+            "password": user_info.get('password'),
+        }
+        # create if username not exist in db
+        user = dbc.get_one_user(data["username"])
+        if not user:
+            data["likes"], data["history"] = [], []
+            dbc.insert_one_user(data)
+            response_object['status'] = 'success'
     except Exception:
         return jsonify("Error")
-    return jsonify(res)
+    return jsonify(response_object)
+
+
+@app.route('/influco.api/login/<string:username>', methods=['post'])
+def login(username):
+    response_object = {'status': 'fail'}
+    try:
+        user_info = request.get_json()
+        data = {
+            "username": user_info.get('username'),
+            "password": user_info.get('password'),
+        }
+        user_info = dbc.get_one_user(data["username"])
+        if not user_info:
+            return jsonify(response_object)
+        ############## will be replaced ##############
+        if user_info['password'] != data["password"]:
+            ##############################################
+            return jsonify(response_object)
+        response_object['status'] = 'success'
+        # Frontend: get user data
+        response_object['data'] = user_info
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
 
 
 if __name__ == "__main__":
