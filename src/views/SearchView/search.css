@@ -1,0 +1,159 @@
+.main {
+    margin-top: 200px;
+}
+
+.search {
+    display: inline;
+}
+
+.loading {
+    margin-top: 10px;
+}
+
+.result {
+    margin-top: 10px;
+}
+
+.filterButtons {
+    margin-bottom: 0px;
+}
+
+.searchInputBox {
+    width: 600px;
+    height: 50px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.searchButton {
+    width: 150px;
+    height: 50px;
+    border-radius: 15px;
+    margin-left: 10px;
+    border: none;
+    background-color: #aaaaaa;
+    font-size: 23px;
+}
+
+.searchButton:hover {
+    background-color: #525252;
+}
+
+p {
+    margin: 5px 10px;
+    /* font-size: 80%; */
+}
+
+
+.links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0px;
+}
+
+
+.singleAuthor1 {
+    margin-left: 5%;
+    float: left;
+    width: 28%;
+    height: 350px;
+}
+
+.singleAuthor2 {
+    margin-left: 3%;
+    float: left;
+    width: 28%;
+    height: 350px;
+}
+
+.singleAuthor3 {
+    margin-left: 3%;
+    float: left;
+    width: 28%;
+    height: 350px;
+    margin-right: 5%;
+}
+
+.index {
+    width: 100%;
+}
+
+.indexButton {
+    margin: 0px 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.tagButton {
+    font-size: 80%;
+    border: none;
+    color: #0000cd;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.tagButtons {
+    color: #0000cd;
+    background-color: white;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.allButton {
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.sameBorder {
+    text-align: left;
+    --borderWidth: 5px;
+    position: relative;
+    border-radius: 15px;
+}
+
+.sameBorder:after {
+    text-align: left;
+    content: '';
+    position: absolute;
+    top: calc(-3 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: 320px;
+    /* height: calc(100% + var(--borderWidth) * 2); */
+    width: calc(100% + var(--borderWidth) * 2);
+    background: WhiteSmoke;
+    /* linear-gradient(45deg,
+            #e39e59,
+            #ea7e66,
+            #e26d8d,
+            #c096c9,
+            #748cba,
+            #579faf,
+            #5fc4b2,
+            #85bb94); */
+    border-radius: 15px;
+    z-index: -1;
+    /* animation: animated 3s ease alternate infinite; */
+    background-size: 300% 300%;
+}
+
+
+.active {
+    background-color: lightpink;
+}
+
+/* @keyframes animated {
+    0% {
+        background-position: 0 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+} */

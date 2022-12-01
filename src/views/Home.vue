@@ -4,13 +4,13 @@
     <h1><strong>{{ mainPageMSG1 }}</strong></h1>
     <h2><strong>{{ mainPageMSG2 }}</strong></h2>
     <ul>
-      <button class="button-87" role="button" onclick="window.location.href='https://vuejs.org';">Start Browse</button>
+      <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
     </ul>
     <ul>
-      <button class="button-87" role="button" onclick="window.location.href='https://vuejs.org';">Register</button>
+      <button class="button-87" role="button" onclick="window.location.href='/register';">Register</button>
     </ul>
     <ul>
-      <div>Already having an account? Try&nbsp;</div><a href="http://router.vuejs.org/">login</a>
+      <div>Already have an account? Try&nbsp;</div><a href="/login">login</a>
     </ul>
   </div>
 </template>
@@ -28,17 +28,16 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 5%;
+.main {
+  margin-top: 250px;
 }
 
 body {
   background-image: url('../assets/mainPageBackground.jpg');
+}
+
+a {
+  margin: 0px;
 }
 
 h1 {
@@ -59,12 +58,14 @@ h2 {
 
 ul {
   padding: 0;
+  margin: 25px;
   display: flex;
   justify-content: center;
 }
 
 a {
   color: #42b983;
+  margin: 0px;
 }
 
 .button-87 {

@@ -14,8 +14,10 @@
   "dependencies": {
     "@sentry/tracing": "^7.17.4",
     "@sentry/vue": "^7.17.4",
+    "@userfront/core": "^0.4.6",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/test-utils": "^2.2.1",
+    "axios": "^1.2.0",
     "core-js": "^3.8.3",
     "jsdom": "^20.0.2",
     "vitest": "^0.24.5",
