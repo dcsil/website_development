@@ -28,17 +28,16 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 5%;
+.main {
+  margin-top: 250px;
 }
 
 body {
   background-image: url('../assets/mainPageBackground.jpg');
+}
+
+a {
+  margin: 0px;
 }
 
 h1 {
@@ -66,6 +65,7 @@ ul {
 
 a {
   color: #42b983;
+  margin: 0px;
 }
 
 .button-87 {

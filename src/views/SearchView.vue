@@ -19,18 +19,23 @@
 
             <button class="allButton" :disabled="leftNavTag()" v-on:click="leftMoveTag()">{{ "<" }}</button>
 
-            <button class="tagButtons" v-for="item in (tagFrequencyAll().slice(startIndexTag, startIndexTag + 5))" v-bind:key="item[0]" v-on:click="filterTag(item[0])">{{ "#" + item[0] }}</button>
+                    <button class="tagButtons"
+                        v-for="item in (tagFrequencyAll().slice(startIndexTag, startIndexTag + 5))" v-bind:key="item[0]"
+                        :class="{ active: activeTag === item[0] }" v-on:click="filterTag(item[0])">{{ "#" + item[0]
+                        }}</button>
 
-            <button class="allButton" :disabled="rightNavTag()" v-on:click="rightMoveTag()">></button>
+                    <button class="allButton" :disabled="rightNavTag()" v-on:click="rightMoveTag()">></button>
         </div>
 
         <div class="filterButtons">
 
             <label>
-                <select v-model="selected" v-on:click="sort()">
+                <!-- <select v-model="selected" v-on:click="sort()"> -->
+                <select v-model="selected" v-on:change="sort()">
                     <p>Choose order here: </p>
-<!--                    <option value="" selected disabled hidden>Choose sort by:</option>-->
+                    <!--                    <option value="" selected disabled hidden>Choose sort by:</option>-->
                     <!-- TODO: <option value="Recommend">Recommend</option>-->
+                    <option value="">Default</option>
                     <option value="Followers: High to Low">Followers: High to Low</option>
                     <option value="Video Count: High to Low">Video Count: High to Low</option>
                     <option value="Like Count: High to Low">Like Count: High to Low</option>
@@ -39,29 +44,40 @@
             </label>
         </div>
 
-        <h4>Total results: {{ influencers !== 0 ? influencers.length : "Loading" }}</h4>
-
+        <div>
+            <h4>Total results: {{ influencers !== 0 ? influencers.length : "Loading" }}</h4>
+        </div>
         <div class="authorDetails">
             <div class="singleAuthor1">
                 <div v-if="flag(showAuthorIndex)" class="sameBorder">
-                    <p>{{ "Author Nickname: " + influencers[showAuthorIndex]["author_stats"]["nickname"] }}</p>
+                    <p class="text">{{ "Author Nickname: " + influencers[showAuthorIndex]["author_stats"]["nickname"] }}
+                    </p>
 
                     <p>{{ "Author ID: " + influencers[showAuthorIndex]["author_stats"]["id"] }}</p>
 
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"] }}</p>
+                    <p>{{ "Follower Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"] }}
+                    </p>
 
                     <p>{{ "Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heart"] }}</p>
 
                     <p>{{ "Video Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["videoCount"] }}</p>
 
-                    <p>{{ "Official site: " }}</p>
-                    <a :href="influencers[showAuthorIndex].url"> {{ influencers[showAuthorIndex]["url"] }}</a>
-
-                    <p>{{ "Popular tags: " }}</p>
-                    <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex])" v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
-
-                    <p>{{ "Influencer Detail: " }}</p>
-                    <a :href="`/detail/${influencers[showAuthorIndex].author_stats.id}`"> {{ "@" + influencers[showAuthorIndex].author_stats.id }}</a>
+                    <div class="links">
+                        <p>{{ "Official site: " }}</p>
+                        <a :href="influencers[showAuthorIndex].url"> {{ influencers[showAuthorIndex]["url"] }}</a>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Popular tags: " }}</p>
+                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex])"
+                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Influencer Detail: " }}</p>
+                        <a class="searchlink" :href="`/detail/${influencers[showAuthorIndex].author_stats.id}`"> {{ "@"
+                                +
+                                influencers[showAuthorIndex].author_stats.id
+                        }}</a>
+                    </div>
                 </div>
             </div>
             <div class="singleAuthor2">
@@ -70,20 +86,31 @@
 
                     <p>{{ "Author ID: " + influencers[showAuthorIndex + 1]["author_stats"]["id"] }}</p>
 
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["followerCount"] }}</p>
+                    <p>{{ "Follower Count: " + influencers[showAuthorIndex +
+                            1]["author_stats"]["stats"]["followerCount"]
+                    }}</p>
 
                     <p>{{ "Like Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["heart"] }}</p>
 
-                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["videoCount"] }}</p>
+                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["videoCount"] }}
+                    </p>
 
-                    <p>{{ "Official site: " }}</p>
-                    <a :href="influencers[showAuthorIndex + 1].url"> {{ influencers[showAuthorIndex + 1]["url"] }}</a>
-
-                    <p>{{ "Popular tags: " }}</p>
-                    <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 1])" v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
-
-                    <p>{{ "Influencer Detail: " }}</p>
-                    <a :href="`/detail/${influencers[showAuthorIndex + 1].author_stats.id}`"> {{ "@" + influencers[showAuthorIndex + 1].author_stats.id }}</a>
+                    <div class="links">
+                        <p>{{ "Official site: " }}</p>
+                        <a :href="influencers[showAuthorIndex + 1].url"> {{ influencers[showAuthorIndex + 1]["url"]
+                        }}</a>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Popular tags: " }}</p>
+                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 1])"
+                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Influencer Detail: " }}</p>
+                        <a :href="`/detail/${influencers[showAuthorIndex + 1].author_stats.id}`"> {{ "@" +
+                                influencers[showAuthorIndex + 1].author_stats.id
+                        }}</a>
+                    </div>
                 </div>
             </div>
 
@@ -93,40 +120,68 @@
 
                     <p>{{ "Author ID: " + influencers[showAuthorIndex + 2]["author_stats"]["id"] }}</p>
 
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["followerCount"] }}</p>
+                    <p>{{ "Follower Count: " + influencers[showAuthorIndex +
+                            2]["author_stats"]["stats"]["followerCount"]
+                    }}</p>
 
                     <p>{{ "Like Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["heart"] }}</p>
 
-                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["videoCount"] }}</p>
+                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["videoCount"]
+                    }}
+                    </p>
 
-                    <p>{{ "Official site: " }}</p>
-                    <a :href="influencers[showAuthorIndex + 2].url"> {{ influencers[showAuthorIndex + 2]["url"] }}</a>
-
-                    <p>{{ "Popular tags: " }}</p>
-                    <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 2])" v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
-
-                    <p>{{ "Influencer Detail: " }}</p>
-                    <a :href="`/detail/${influencers[showAuthorIndex + 2].author_stats.id}`"> {{ "@" + influencers[showAuthorIndex + 2].author_stats.id }}</a>
+                    <div class="links">
+                        <p>{{ "Official site: " }}</p>
+                        <a :href="influencers[showAuthorIndex + 2].url"> {{ influencers[showAuthorIndex + 2]["url"]
+                        }}</a>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Popular tags: " }}</p>
+                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 2])"
+                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                    </div>
+                    <div class="links">
+                        <p>{{ "Influencer Detail: " }}</p>
+                        <a :href="`/detail/${influencers[showAuthorIndex + 2].author_stats.id}`"> {{ "@" +
+                                influencers[showAuthorIndex + 2].author_stats.id
+                        }}</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="index">
-            <button class="indexButton" :disabled="leftNav()" v-on:click="leftMove()">{{"<"}}</button>
+            <button class="indexButton" :disabled="leftNav()" v-on:click="leftMove()">{{ "<" }} </button>
 
-            <button class="indexButton" :disabled="checkIndex(0)" v-on:click="showAuthor(0)">{{ startIndex }}</button>
-            <button class="indexButton" :disabled="checkIndex(1)" v-on:click="showAuthor(1)">{{ 1 + startIndex }}</button>
-            <button class="indexButton" :disabled="checkIndex(2)" v-on:click="showAuthor(2)">{{ 2 + startIndex }}</button>
-            <button class="indexButton" :disabled="checkIndex(3)" v-on:click="showAuthor(3)">{{ 3 + startIndex }}</button>
-            <button class="indexButton" :disabled="checkIndex(4)" v-on:click="showAuthor(4)">{{ 4 + startIndex }}</button>
+                    <button class="indexButton" :class="{ active: activeBtn === 0 }" :disabled="checkIndex(0)"
+                        v-on:click="showAuthor(0)">{{ startIndex
+                        }}</button>
+                    <button class="indexButton" :class="{ active: activeBtn === 1 }" :disabled="checkIndex(1)"
+                        v-on:click="showAuthor(1)">{{ 1 +
+                                startIndex
+                        }}</button>
+                    <button class="indexButton" :class="{ active: activeBtn === 2 }" :disabled="checkIndex(2)"
+                        v-on:click="showAuthor(2)">{{ 2 +
+                                startIndex
+                        }}</button>
+                    <button class="indexButton" :class="{ active: activeBtn === 3 }" :disabled="checkIndex(3)"
+                        v-on:click="showAuthor(3)">{{ 3 +
+                                startIndex
+                        }}</button>
+                    <button class="indexButton" :class="{ active: activeBtn === 4 }" :disabled="checkIndex(4)"
+                        v-on:click="showAuthor(4)">{{ 4 +
+                                startIndex
+                        }}</button>
 
-            <button class="indexButton" :disabled="rightNav()" v-on:click="rightMove()">></button>
+                    <button class="indexButton" :class="{ active: activeBtn === 5 }" :disabled="rightNav()"
+                        v-on:click="rightMove()">></button>
         </div>
     </div>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import { GetInfluencerByTag } from "../api/influencer";
 
 export default {
     components: {},
@@ -145,91 +200,140 @@ export default {
             showAuthorIndex: 0,
             startIndexTag: 0,
             allTagsLength: 0,
+            activeBtn: 0,
+            curPage: 1,
+            activeTag: '',
         }
     },
-        methods: {
-            flag(index) {
-                return this.influencers[index] !== undefined;
-            },
-            searching() {
-                this.isLoading = true;
-                this.isShowing = false;
-                this.startIndex = 1;
-                this.showAuthorIndex = 0;
+    methods: {
+        flag(index) {
+            return this.influencers[index] !== undefined;
+        },
+        searching() {
+            this.activeTag = '';
+            this.activeBtn = 0;
+            this.curPage = 1;
+            this.isLoading = true;
+            this.isShowing = false;
+            this.startIndex = 1;
+            this.showAuthorIndex = 0;
 
-                const path = '/influco.api/tag/' + this.tag;
-                console.log(path);
-                axios.get(path).then(response => {
-                    // TODO: what does this: if (response.data.status === "success") {} means?
-                    this.influencers = response.data;
-                    if (!Array.isArray(this.influencers)) {
-                        throw new Error('API does not return anything for frontend')
-                    }
-                    this.copy_influencers = this.influencers;
-                    this.isLoading = false;
-                    this.isShowing = true;
-                    console.log("Author list has " + this.influencers.length + " authors");
-                }).catch(err => {
-                    console.log(err);
+            // const path = '/influco.api/tag/' + this.tag;
+            console.log(path);
+            GetInfluencerByTag(this.tag).then(response => {
+                // TODO: what does this: if (response.data.status === "success") {} means?
+                this.influencers = response.data;
+                if (!Array.isArray(this.influencers)) {
+                    throw new Error('API does not return anything for frontend')
+                }
+                this.copy_influencers = this.influencers;
+                this.isLoading = false;
+                this.isShowing = true;
+                console.log("Author list has " + this.influencers.length + " authors");
+            }).catch(err => {
+                console.log(err);
+            });
+        },
+        checkIndex(curr) {
+            return 3 * (curr + this.startIndex) - 2 > this.influencers.length;
+        },
+        leftNav() {
+            return this.startIndex === 1;
+        },
+        rightNav() {
+            return this.influencers.length - (Math.ceil(this.startIndex / 5) * 15) <= 0;
+        },
+        leftMove() {
+            this.startIndex -= 5;
+            if (this.curPage >= this.startIndex && this.curPage < this.startIndex + 5) {
+                this.activeBtn = this.curPage - this.startIndex;
+            } else {
+                this.activeBtn = -1;
+            }
+        },
+        rightMove() {
+            this.activeBtn = -1;
+            this.startIndex += 5;
+            if (this.curPage >= this.startIndex && this.curPage < this.startIndex + 5) {
+                this.activeBtn = this.curPage - this.startIndex;
+            } else {
+                this.activeBtn = -1;
+            }
+        },
+        showAuthor(curr) {
+            this.curPage = this.startIndex + curr;
+            this.activeBtn = curr;
+            // show influencers[3 * startIndex - 2, 3 * startIndex]
+            // startIndex >= 1
+            // startIndex <= Mth.ceil(influencers.length / 3)
+            this.showAuthorIndex = 3 * (curr + this.startIndex - 1);
+            console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
+        },
+        sort() {
+            if (this.selected === "") {
+                return;
+            }
+            if (this.selected === "Followers: High to Low") {
+                this.influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["followerCount"] - a["author_stats"]["stats"]["followerCount"];
                 });
-            },
-            checkIndex(curr) {
-                return 3 * (curr + this.startIndex) - 2 > this.influencers.length;
-            },
-            leftNav() {
-                return this.startIndex === 1;
-            },
-            rightNav() {
-                return this.influencers.length - (Math.ceil(this.startIndex / 5) * 15) <= 0;
-            },
-            leftMove() {
-                this.startIndex -= 5;
-            },
-            rightMove() {
-                this.startIndex += 5;
-            },
-            showAuthor(curr) {
-                // show influencers[3 * startIndex - 2, 3 * startIndex]
-                // startIndex >= 1
-                // startIndex <= Mth.ceil(influencers.length / 3)
-                this.showAuthorIndex = 3 * (curr + this.startIndex - 1);
-                console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
-            },
-            sort() {
-                if (this.selected === "") {
-                    return;
+                this.copy_influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["followerCount"] - a["author_stats"]["stats"]["followerCount"];
+                });
+            } else if (this.selected === "Video Count: High to Low") {
+                this.influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["videoCount"] - a["author_stats"]["stats"]["videoCount"];
+                });
+                this.copy_influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["videoCount"] - a["author_stats"]["stats"]["videoCount"];
+                });
+            } else if (this.selected === "Like Count: High to Low") {
+                this.influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["heart"] - a["author_stats"]["stats"]["heart"];
+                });
+                this.copy_influencers.sort(function (a, b) {
+                    return b["author_stats"]["stats"]["heart"] - a["author_stats"]["stats"]["heart"];
+                });
+            }
+            this.startIndex = 1;
+            this.showAuthorIndex = 0;
+        },
+        tagFrequency(influencer) {
+            let tag_obj = {};
+            for (let i = 0; i < influencer["video_list"].length; i++) {
+                // console.log(influencer["video_list"][i]["label_list"]);
+                for (let j = 0; j < influencer["video_list"][i]["label_list"].length; j++) {
+                    // console.log(influencer["video_list"][i]["label_list"][j]);
+                    if (!(influencer["video_list"][i]["label_list"][j] in tag_obj)) {
+                        tag_obj[influencer["video_list"][i]["label_list"][j]] = 1;
+                    } else {
+                        tag_obj[influencer["video_list"][i]["label_list"][j]] += 1;
+                    }
                 }
-                if (this.selected === "Followers: High to Low") {
-                    this.influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["followerCount"] - a["author_stats"]["stats"]["followerCount"];
-                    });
-                    this.copy_influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["followerCount"] - a["author_stats"]["stats"]["followerCount"];
-                    });
-                } else if (this.selected === "Video Count: High to Low") {
-                    this.influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["videoCount"] - a["author_stats"]["stats"]["videoCount"];
-                    });
-                    this.copy_influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["videoCount"] - a["author_stats"]["stats"]["videoCount"];
-                    });
-                } else if (this.selected === "Like Count: High to Low") {
-                    this.influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["heart"] - a["author_stats"]["stats"]["heart"];
-                    });
-                    this.copy_influencers.sort(function(a, b) {
-                        return b["author_stats"]["stats"]["heart"] - a["author_stats"]["stats"]["heart"];
-                    });
-                }
-                this.startIndex = 1;
-                this.showAuthorIndex = 0;
-            },
-            tagFrequency(influencer) {
-                let tag_obj = {};
+            }
+            // console.log(tag_obj);
+            let tag_arr = [];
+            for (let element in tag_obj) {
+                tag_arr.push([element, tag_obj[element]]);
+            }
+            tag_arr.sort(function (a, b) {
+                return b[1] - a[1];
+            })
+            // console.log(tag_arr);
+            if (tag_arr.length >= 3) {
+                return [tag_arr[0][0], tag_arr[1][0], tag_arr[2][0]]
+            } else if (tag_arr.length === 2) {
+                return [tag_arr[0][0], tag_arr[1][0]]
+            } else if (tag_arr.length === 1) {
+                return [tag_arr[0][0]]
+            }
+        },
+        tagFrequencyAll() {
+            let tag_obj = {};
+            for (let k = 0; k < this.copy_influencers.length; k++) {
+                let influencer = this.copy_influencers[k];
                 for (let i = 0; i < influencer["video_list"].length; i++) {
-                    // console.log(influencer["video_list"][i]["label_list"]);
                     for (let j = 0; j < influencer["video_list"][i]["label_list"].length; j++) {
-                        // console.log(influencer["video_list"][i]["label_list"][j]);
                         if (!(influencer["video_list"][i]["label_list"][j] in tag_obj)) {
                             tag_obj[influencer["video_list"][i]["label_list"][j]] = 1;
                         } else {
@@ -237,87 +341,60 @@ export default {
                         }
                     }
                 }
-                // console.log(tag_obj);
-                let tag_arr = [];
-                for (let element in tag_obj) {
-                    tag_arr.push([element, tag_obj[element]]);
-                }
-                tag_arr.sort(function(a, b) {
-                    return b[1] - a[1];
-                })
-                // console.log(tag_arr);
-                if (tag_arr.length >= 3) {
-                    return [tag_arr[0][0], tag_arr[1][0], tag_arr[2][0]]
-                } else if (tag_arr.length === 2) {
-                    return [tag_arr[0][0], tag_arr[1][0]]
-                } else if (tag_arr.length === 1) {
-                    return [tag_arr[0][0]]
-                }
-            },
-            tagFrequencyAll() {
-                let tag_obj = {};
-                for (let k = 0; k < this.copy_influencers.length; k++) {
-                    let influencer = this.copy_influencers[k];
-                    for (let i = 0; i < influencer["video_list"].length; i++) {
-                        for (let j = 0; j < influencer["video_list"][i]["label_list"].length; j++) {
-                            if (!(influencer["video_list"][i]["label_list"][j] in tag_obj)) {
-                                tag_obj[influencer["video_list"][i]["label_list"][j]] = 1;
-                            } else {
-                                tag_obj[influencer["video_list"][i]["label_list"][j]] += 1;
-                            }
-                        }
-                    }
-                }
-
-                let tag_arr = [];
-                for (let element in tag_obj) {
-                    tag_arr.push([element, tag_obj[element]]);
-                }
-                tag_arr.sort(function(a, b) {
-                    return b[1] - a[1];
-                })
-                this.allTagsLength = tag_arr.length;
-                return tag_arr;
-            },
-            showAll() {
-                this.influencers = this.copy_influencers;
-            },
-            leftNavTag() {
-                return this.startIndexTag === 0;
-            },
-            rightNavTag() {
-                return this.allTagsLength - this.startIndexTag - 5 <= 0;
-            },
-            leftMoveTag() {
-                this.startIndexTag -= 5;
-            },
-            rightMoveTag() {
-                this.startIndexTag += 5;
-            },
-            filterTag(tagName) {
-                // console.log(tagName);
-                // console.log(this.copy_influencers[0]["video_list"][0]["label_list"]);
-                // console.log(this.copy_influencers[0]["video_list"][1]["label_list"]);
-                // console.log(this.copy_influencers[0]["video_list"][2]["label_list"]);
-                this.influencers = [];
-                for (let k = 0; k < this.copy_influencers.length; k++) {
-                    let influencer = this.copy_influencers[k];
-                    for (let i = 0; i < influencer["video_list"].length; i++) {
-                        if (influencer["video_list"][i]["label_list"].includes(tagName)) {
-                            this.influencers.push(influencer)
-                            break;
-                        }
-                    }
-                }
-                this.startIndex = 1;
-                this.showAuthorIndex = 0;
             }
+
+            let tag_arr = [];
+            for (let element in tag_obj) {
+                tag_arr.push([element, tag_obj[element]]);
+            }
+            tag_arr.sort(function (a, b) {
+                return b[1] - a[1];
+            })
+            this.allTagsLength = tag_arr.length;
+            return tag_arr;
         },
+        showAll() {
+            this.activeTag = '';
+            this.influencers = this.copy_influencers;
+        },
+        leftNavTag() {
+            return this.startIndexTag === 0;
+        },
+        rightNavTag() {
+            return this.allTagsLength - this.startIndexTag - 5 <= 0;
+        },
+        leftMoveTag() {
+            this.startIndexTag -= 5;
+        },
+        rightMoveTag() {
+            this.startIndexTag += 5;
+        },
+        filterTag(tagName) {
+            // console.log(tagName);
+            // console.log(this.copy_influencers[0]["video_list"][0]["label_list"]);
+            // console.log(this.copy_influencers[0]["video_list"][1]["label_list"]);
+            // console.log(this.copy_influencers[0]["video_list"][2]["label_list"]);
+            this.activeTag = tagName;
+            this.influencers = [];
+            for (let k = 0; k < this.copy_influencers.length; k++) {
+                let influencer = this.copy_influencers[k];
+                for (let i = 0; i < influencer["video_list"].length; i++) {
+                    if (influencer["video_list"][i]["label_list"].includes(tagName)) {
+                        this.influencers.push(influencer)
+                        break;
+                    }
+                }
+            }
+            this.startIndex = 1;
+            this.showAuthorIndex = 0;
+        }
+    },
 }
 </script>
 
-<style>
-.searchBox{
+<style lang="css">
+@import "./SearchView/search.css";
+/* .searchBox{
     display: inline;
 }
 
@@ -426,5 +503,5 @@ export default {
 	100% {
 		background-position: 0 50%;
 	}
-}
+} */
 </style>
