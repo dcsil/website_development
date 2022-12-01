@@ -159,6 +159,65 @@ def login(username):
     return jsonify(response_object)
 
 
+@app.route('/influco.api/history/<string:username>', methods=['post'])
+def add_history(username):
+    response_object = {'status': 'fail'}
+    try:
+        influ_id = request.get_json().get("influ_id")
+        res = dbc.update_user_history(username, influ_id, 'post')
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
+
+
+@app.route('/influco.api/history/<string:username>', methods=['delete'])
+def clear_history(username):
+    response_object = {'status': 'fail'}
+    try:
+        res = dbc.update_user_history(username, None, 'delete')
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
+
+
+@app.route('/influco.api/likes/<string:username>', methods=['post'])
+def add_like(username):
+    response_object = {'status': 'fail'}
+    try:
+        influ_id = request.get_json().get("influ_id")
+        res = dbc.update_user_likes(username, influ_id, 'post')
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
+
+
+@app.route('/influco.api/likes/<string:username>', methods=['delete'])
+def remove_like(username):
+    response_object = {'status': 'fail'}
+    try:
+        influ_id = request.get_json().get("influ_id")
+        res = dbc.update_user_likes(username, influ_id, 'delete')
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     app.run(host='0.0.0.0', port=port)
