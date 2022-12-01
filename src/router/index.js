@@ -6,6 +6,7 @@ import Popular from "@/views/PopularView.vue";
 import Dashboard from "@/views/DashboardView.vue";
 import Login from "@/views/LoginView.vue";
 import Register from "@/views/RegisterView.vue";
+import Detail from "@/views/DetailView.vue"
 
 const routes = [
   {
@@ -42,7 +43,12 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register,
-  }
+  },
+  {
+    path: "/detail/:id",
+    name: "Detail",
+    component: Detail,
+  },
 ];
 
 const router = createRouter({
