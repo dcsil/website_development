@@ -30,3 +30,34 @@ export function GetUser(username) {
     url: `/user/${username}`,
   });
 }
+
+export function AddHistory(username) {
+  return service.request({
+    method: 'post',
+    url: `/history/${username}`,
+    data,
+  });
+}
+
+export function ClearHistory(username) {
+  return service.request({
+    method: 'delete',
+    url: `/history/${username}`,
+  });
+}
+
+export function AddLike(username) {
+  return service.request({
+    method: 'post',
+    url: `/likes/${username}`,
+    data,
+  });
+}
+
+export function RemoveLike(username) {
+  return service.request({
+    method: 'delete',
+    url: `/likes/${username}`,
+    data,
+  });
+}
