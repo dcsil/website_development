@@ -1,37 +1,69 @@
 <template>
   <div id="nav">
     <nav class="container navbar navbar-expand-lg navbar-light bg-light">
-      <!-- <div >
+      <div>
         <a class="navbar-brand" href="/"><img src="./assets/INFLUCO.jpg" width="60" height="60">InfluCo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-      </div> -->
+      </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <a class="navbar-brand" href="/"><img src="./assets/INFLUCO.jpg" width="60" height="60">InfluCo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
         <div class="navbar-nav mr-auto">
-          <router-link to="/popular" class="nav-item nav-link">Popular</router-link>
-          <router-link to="/search" class="nav-item nav-link">Search</router-link>
+          <div v-if="this.authenticated">
+            <router-link to="/popular" class="nav-item nav-link">Popular</router-link>
+          </div>
+          <div v-else-if="!this.authenticated">
+            <a href="/login" class="nav-item nav-link">Popular</a>
+          </div>
+          <div v-if="this.authenticated">
+            <router-link to="/search" class="nav-item nav-link">Search</router-link>
+          </div>
+          <div v-else-if="!this.authenticated">
+            <a href="/login" class="nav-item nav-link">Search</a>
+          </div>
         </div>
-        <!-- <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-          </form> -->
       </div>
       <div class="dashboard-icon">
-        <router-link to="/dashboard" class="nav-item nav-link"><i class="bi-person"></i></router-link>
+        <div v-if="this.authenticated">
+          <router-link to="/dashboard" class="nav-item nav-link"><i class="bi-person"></i></router-link>
+        </div>
+        <div v-else-if="!this.authenticated">
+          <a href="/login" class="nav-item nav-link"><i class="bi-person"></i></a>
+        </div>
       </div>
     </nav>
   </div>
-  <div class="main"><router-view /></div>
+  <div class="main"><router-view @authenticated="setAuthenticated" /></div>
 </template>
+
+<script>
+export default {
+  name: 'app',
+  data() {
+    console.log("this.authenticated: 0", localStorage.getItem('authenticated'))
+    return {
+      authenticated: (localStorage.getItem('authenticated') === 'true'),
+    }
+  },
+
+  mounted() {
+    this.authenticated = (localStorage.getItem('authenticated') === 'true'),
+    console.log("this.authenticated: 1", this.authenticated)
+    if (!this.authenticated) {
+      console.log("this.authenticated 2: ", this.authenticated)
+    }
+  },
+
+  methods: {
+    setAuthenticated(status) {
+      this.authenticated = status;
+      console.log("this.authenticated 3: ", this.authenticated)
+    },
+  }
+}
+</script>
 
 <style>
 #app {

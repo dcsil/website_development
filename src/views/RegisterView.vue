@@ -29,9 +29,6 @@
 </template>
 
 <script>
-
-
-// import axios from 'axios';
 import { UserRegister } from '../api/user';
 // same: import { UserRegister } from '@/api/user';
 
@@ -83,6 +80,8 @@ export default {
                     this.alert = 'Username already exist!'
                 } else if (response.data.status === "success") {
                     this.$router.push('/dashboard')
+                    this.$emit("authenticated", true)
+                    localStorage.setItem('authenticated', 'true')
                 } else {
                     console.log('error')
                 }

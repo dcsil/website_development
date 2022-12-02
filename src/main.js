@@ -6,6 +6,7 @@ import { BrowserTracing } from "@sentry/tracing";
 
 const app = createApp(App);
 app.use(router);
+// localStorage.setItem('authenticated', 'false')
 
 Sentry.init({
     app,

@@ -23,7 +23,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
 import { UserLogin } from '../api/user';
 
 export default {
@@ -61,6 +60,8 @@ export default {
                     this.alert = 'incorrect password'
                 } else if (response.data.status === "success") {
                     this.$router.push('/dashboard')
+                    this.$emit("authenticated", true)
+                    localStorage.setItem('authenticated', 'true')
                 } else {
                     console.log('error')
                 }
