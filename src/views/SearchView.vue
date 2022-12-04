@@ -73,10 +73,7 @@
                     </div>
                     <div class="links">
                         <p>{{ "Influencer Detail: " }}</p>
-                        <a class="searchlink" :href="`/detail/${influencers[showAuthorIndex].author_stats.id}`"> {{ "@"
-                                +
-                                influencers[showAuthorIndex].author_stats.id
-                        }}</a>
+                        <router-link :to="{name: 'Detail', params: {author_id: influencers[showAuthorIndex].author_stats.id}}">{{ "@" + influencers[showAuthorIndex].author_stats.id }}</router-link>
                     </div>
                 </div>
             </div>
@@ -107,9 +104,7 @@
                     </div>
                     <div class="links">
                         <p>{{ "Influencer Detail: " }}</p>
-                        <a :href="`/detail/${influencers[showAuthorIndex + 1].author_stats.id}`"> {{ "@" +
-                                influencers[showAuthorIndex + 1].author_stats.id
-                        }}</a>
+                        <router-link :to="{name: 'Detail', params: {author_id: influencers[showAuthorIndex + 1].author_stats.id}}">{{ "@" + influencers[showAuthorIndex + 1].author_stats.id }}</router-link>
                     </div>
                 </div>
             </div>
@@ -142,9 +137,7 @@
                     </div>
                     <div class="links">
                         <p>{{ "Influencer Detail: " }}</p>
-                        <a :href="`/detail/${influencers[showAuthorIndex + 2].author_stats.id}`"> {{ "@" +
-                                influencers[showAuthorIndex + 2].author_stats.id
-                        }}</a>
+                        <router-link :to="{name: 'Detail', params: {author_id: influencers[showAuthorIndex + 2].author_stats.id}}">{{ "@" + influencers[showAuthorIndex + 2].author_stats.id }}</router-link>
                     </div>
                 </div>
             </div>
@@ -190,6 +183,7 @@ export default {
             tag: "",
             influencers: 0,
             copy_influencers: 0,
+            origin_influencers: 0,
             // influencers: null, => impossible for vue3 to declare null variable during rendering
             startIndex: 1,
             left: false,
@@ -227,6 +221,7 @@ export default {
                     throw new Error('API does not return anything for frontend')
                 }
                 this.copy_influencers = this.influencers;
+                this.origin_influencers = this.influencers;
                 this.isLoading = false;
                 this.isShowing = true;
                 console.log("Author list has " + this.influencers.length + " authors");
@@ -271,6 +266,7 @@ export default {
         },
         sort() {
             if (this.selected === "") {
+                this.influencers = this.origin_influencers;
                 return;
             }
             if (this.selected === "Followers: High to Low") {
@@ -370,10 +366,6 @@ export default {
             this.startIndexTag += 5;
         },
         filterTag(tagName) {
-            // console.log(tagName);
-            // console.log(this.copy_influencers[0]["video_list"][0]["label_list"]);
-            // console.log(this.copy_influencers[0]["video_list"][1]["label_list"]);
-            // console.log(this.copy_influencers[0]["video_list"][2]["label_list"]);
             this.activeTag = tagName;
             this.influencers = [];
             for (let k = 0; k < this.copy_influencers.length; k++) {
