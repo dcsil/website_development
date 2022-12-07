@@ -14,7 +14,10 @@
             </a>
           </a>
           <div id="accountContent" class="collapse accountContent">
-            <a href="#" class="list-group-item list-group-item-action bg-light">Reset password</a>
+            <a href="#" @click="activateResetUsername" class="list-group-item list-group-item-action bg-light">Reset
+              Username</a>
+            <a href="#" @click="activateResetPassword" class="list-group-item list-group-item-action bg-light">Reset
+              Password</a>
             <a href="#" @click="logout" class="list-group-item list-group-item-action bg-light">Logout</a>
           </div>
           <a href="#" @click="activateHistory" class="list-group-item list-group-item-action bg-light"><i
@@ -26,13 +29,15 @@
         </div>
       </div>
     </div>
-    <div v-if="(!this.likesActivated && !this.historyActivated)" class="dashboard">
+    <div
+      v-if="(!this.likesActivated && !this.historyActivated && !this.resetUsernameActivated && !this.resetPasswordActivated)"
+      class="dashboard">
       <div class="dashboardContent">
         <div class="dashboardTitle">Dashboard
         </div>
         <div class="dashboardHistory">
           <hr>
-          <div style="font-size: larger;">Recent Viewed 
+          <div style="font-size: larger;">Recent Viewed
             <div v-if="(historyInfluencers !== [])" class="more">
               <button @click="activateHistory" class="buttonMore">More</button>
             </div>
@@ -69,10 +74,11 @@
           <hr>
           <div style="font-size: larger;"> Recent Favourite
             <div v-if="(likesInfluencers !== [])" class="more">
-            <button @click="activateLikes" class="buttonMore">More</button>
-          </div></div>
+              <button @click="activateLikes" class="buttonMore">More</button>
+            </div>
+          </div>
           <div v-for="i in [0, 1, 2]" v-bind:key="i" class="influencerInfo">
-
+            <!-- <a href="#" style="float: right;">...</a> -->
             <div v-if="(flagLikesInfluencers(i))" class="dashboardBox">
               <p class="influencerName">{{
                   likesInfluencers[i]["author_stats"]["nickname"]
@@ -230,6 +236,38 @@
               v-on:click="rightMove(this.startIndexLikes, this.curPageLikes, 'activeBtnLikes')">></button>
       </div>
     </div>
+    <div v-if="this.resetUsernameActivated">
+      <form @submit.prevent="resetUsername" class="login">
+        <div>
+          <label class="login-prompt">
+            New Username:
+          </label>
+          <input type="text" v-model="newUsername" class="login-input" />
+        </div>
+        <button type="submit" class="button-87">Reset</button>
+        <br>
+      </form>
+      <div id="alert" v-if="alert">{{ alert }}</div>
+    </div>
+    <div v-if="this.resetPasswordActivated">
+      <form @submit.prevent="resetPassword" class="login">
+        <div>
+          <label class="login-prompt">
+            New Password:
+          </label>
+          <input type="text" v-model="newPassword" class="login-input" />
+        </div>
+        <div>
+          <label class="login-prompt">
+            Verify New Password:
+          </label>
+          <input type="text" v-model="newPasswordVerify" class="login-input" />
+        </div>
+        <button type="submit" class="button-87">Reset</button>
+        <br>
+      </form>
+      <div id="alert" v-if="alert">{{ alert }}</div>
+    </div>
   </div>
 
 </template>
@@ -239,7 +277,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'popper.js/dist/umd/popper.min.js';
 import 'jquery/dist/jquery.min.js';
-import { GetUser } from '../api/user';
+import { GetUser, ChangeUsername, ChangePassword } from '../api/user';
 import { GetInfluencer } from '@/api/influencer';
 
 export default {
@@ -253,6 +291,8 @@ export default {
       likesInfluencers: [],
       historyActivated: false,
       likesActivated: false,
+      resetUsernameActivated: false,
+      resetPasswordActivated: false,
 
       startIndexHistory: 1,
       activeBtnHistory: 0,
@@ -262,6 +302,11 @@ export default {
       activeBtnLikes: 0,
       curPageLikes: 1,
       showAuthorIndexLikes: 0,
+
+      newUsername: '',
+      newPassword: '',
+      newPasswordVerify: "",
+      alert: '',
     };
   },
   mounted() {
@@ -284,18 +329,94 @@ export default {
     },
 
     activateAccount() {
+      this.newUsername = '',
+      this.newPassword = '',
+      this.newPasswordVerify = "",
+      this.alert = '',
       this.likesActivated = false;
       this.historyActivated = false;
+      this.resetUsernameActivated = false;
+      this.resetPasswordActivated = false;
     },
 
     activateLikes() {
+      this.newUsername = '',
+      this.newPassword = '',
+      this.newPasswordVerify = "",
+      this.alert = '',
       this.likesActivated = true;
       this.historyActivated = false;
+      this.resetUsernameActivated = false;
+      this.resetPasswordActivated = false;
     },
 
     activateHistory() {
+      this.newUsername = '',
+      this.newPassword = '',
+      this.newPasswordVerify = "",
+      this.alert = '',
       this.likesActivated = false;
       this.historyActivated = true;
+      this.resetUsernameActivated = false;
+      this.resetPasswordActivated = false;
+    },
+
+    activateResetUsername() {
+      this.newUsername = '',
+      this.newPassword = '',
+      this.newPasswordVerify = "",
+      this.alert = '',
+      this.likesActivated = false;
+      this.historyActivated = false;
+      this.resetUsernameActivated = true;
+      this.resetPasswordActivated = false;
+    },
+
+    activateResetPassword() {
+      this.newUsername = '',
+      this.newPassword = '',
+      this.newPasswordVerify = "",
+      this.alert = '',
+      this.likesActivated = false;
+      this.historyActivated = false;
+      this.resetUsernameActivated = false;
+      this.resetPasswordActivated = true;
+    },
+
+    resetUsername() {
+      this.alert = "";
+      ChangeUsername(this.username, this.newUsername).then(response => {
+        if (response.data.status === 'fail') {
+          this.alert = 'Failed to reset username, username already exists'
+        } else if (response.data.status === "success") {
+          this.username = response.data.username
+          this.alert = 'successfully reset username'
+          localStorage.setItem('username', this.username)
+        } else {
+          console.log('error')
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+
+    resetPassword() {
+      this.alert = "";
+      if (this.password !== this.passwordVerify) {
+        this.alert = "Passwords must match";
+        return;
+      }
+      ChangePassword(this.username, this.newPassword).then(response => {
+        if (response.data.status === 'fail') {
+          this.alert = 'Failed to reset password'
+        } else if (response.data.status === "success") {
+          this.alert = 'successfully reset password'
+        } else {
+          console.log('error')
+        }
+      }).catch(err => {
+        console.log(err);
+      });
     },
 
     async updateData() {
@@ -467,7 +588,7 @@ export default {
   font-size: xx-large;
 }
 
-.more{
+.more {
   float: right;
 }
 
