@@ -42,24 +42,18 @@
 export default {
   name: 'app',
   data() {
-    console.log("this.authenticated: 0", localStorage.getItem('authenticated'))
     return {
       authenticated: (localStorage.getItem('authenticated') === 'true'),
     }
   },
 
   mounted() {
-    this.authenticated = (localStorage.getItem('authenticated') === 'true'),
-    console.log("this.authenticated: 1", this.authenticated)
-    if (!this.authenticated) {
-      console.log("this.authenticated 2: ", this.authenticated)
-    }
+    this.authenticated = (localStorage.getItem('authenticated') === 'true');
   },
 
   methods: {
     setAuthenticated(status) {
       this.authenticated = status;
-      console.log("this.authenticated 3: ", this.authenticated)
     },
   }
 }
@@ -72,17 +66,27 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 2%;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin-top: -105px;
 }
 
 #nav {
   width: 100%;
-  height: 10%;
+  height: 95px;
   top: 0;
   position: fixed;
   text-align: center;
   align-items: center;
   margin-bottom: 0px;
+  z-index: 99;
 }
 
 #nav a {
@@ -98,15 +102,11 @@ export default {
 
 .navbar {
   min-width: 100%;
-  min-height: 40%;
+  height: 95px;
 }
 
 .navbar-collapse {
   margin-bottom: 0px;
-}
-
-.main {
-  margin-top: 250px;
 }
 
 .dashboard-icon {

@@ -82,6 +82,7 @@ export default {
                     this.$router.push('/dashboard')
                     this.$emit("authenticated", true)
                     localStorage.setItem('authenticated', 'true')
+                    localStorage.setItem('username', this.username)
                 } else {
                     console.log('error')
                 }
@@ -100,6 +101,8 @@ div {
 
 .register {
     font-size: x-large;
+    position: relative;
+    top: 100px;
 }
 
 .register-input {
@@ -125,6 +128,6 @@ div {
 }
 
 .login-at-register {
-    margin-top: 20px;
+    margin-top: 100px;
 }
 </style>

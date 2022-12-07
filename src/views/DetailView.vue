@@ -1,6 +1,6 @@
 <template>
-    <div v-if="!isLoading">
-        <img class="pic" :src="`${influencerInfo.author_stats.avatar}`" alt="Avatar" @error="imageUrlAlt">
+    <div v-if="!isLoading" class="detailView">
+        <img class="pic" :src="`${influencerInfo['author_stats']['avatar']}`" alt="Avatar" @error="imageUrlAlt">
 
         <div class="influencerDetail">
             <p>{{ "Official Tiktok website: " + influencerInfo.url }}</p>
@@ -69,21 +69,26 @@ export default {
 </script>
 
 <style>
-.pic{
+.detailView {
+    position: relative;
+    top: 100px;
+}
+
+.pic {
     width: 150px;
     height: 150px;
     margin-left: 10%;
     float: left;
 }
 
-.influencerDetail{
+.influencerDetail {
     margin-top: 180px;
     margin-left: 25%;
-    text-align:left
+    text-align: left
 }
 
-.videoDetail{
+.videoDetail {
     margin-left: 10%;
-    text-align:left
+    text-align: left
 }
 </style>
