@@ -115,19 +115,17 @@ def update_user_history(username: str, influ_id: Optional[str], mode: str):
     if mode == "delete":
         user_info['history'] = []
     else:
-        update = False
         for i, history in enumerate(user_info['history']):
             if history['influ_id'] == influ_id:
                 # update history by time
                 if mode == "post":
-                    history['time'] = time
-                    update = True
+                    user_info['history'].pop(i)
                     break
-        if not update:
-            user_info['history'].append({
-                "influ_id": influ_id,
-                "time": time
-            })
+
+        user_info['history'].append({
+            "influ_id": influ_id,
+            "time": time
+        })
 
     update_one_user(user_info)
     return user_info
