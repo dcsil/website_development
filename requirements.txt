@@ -8,13 +8,11 @@ MarkupSafe==2.1.1
 python-dotenv==0.21.0
 Werkzeug==2.2.2
 pytest==7.2.0
+pytest-cov==4.0.0
 sentry-sdk==1.10.1
 blinker==1.5
 pymongo==4.3.3
 spacy==3.4.3
-
-# TODO: need run next command line after install spacy
-# python -m spacy download en_core_web_sm
 
 # spacy model for nlp
 https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.4.1/en_core_web_md-3.4.1-py3-none-any.whl
