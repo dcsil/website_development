@@ -119,6 +119,9 @@ def update_username(username):
     response_object = {'status': 'fail'}
     try:
         new_name = request.get_json().get("new_name")
+        # cannot update duplicate
+        if username == new_name:
+            return jsonify(response_object)
         res = dbc.update_username(username, new_name)
         # no error message
         if not isinstance(res, str):

@@ -166,6 +166,8 @@ def update_username(username: str, new_name):
 
 def update_password(username: str, password):
     user_info = get_one_user(username)
+    if user_info['password'] == password:
+        return "Same password"
     user_info['password'] = password
     user_col.replace_one({"username": username}, user_info)
     return user_info
