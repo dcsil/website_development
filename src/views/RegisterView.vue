@@ -42,31 +42,6 @@ export default {
         };
     },
     methods: {
-        // signupWithPassword() {
-        //     // Reset the alert to empty
-        //     this.alert = "";
-        //     // Verify that the passwords match
-        //     if (this.password !== this.passwordVerify) {
-        //         this.alert = "Passwords must match";
-        //         return;
-        //     }
-        //     const path = 'http://127.0.0.1:8000/influco.api/register' + '/' + this.username
-        //     axios.post(path, {
-        //         username: this.username,
-        //         password: this.password,
-        //     }
-        //     ).then(response => {
-        //         if (response.data.status === 'fail') {
-        //             this.alert = 'Username already exist!'
-        //         } else if (response.data.status === "success") {
-        //             this.$router.push('/dashboard')
-        //         } else {
-        //             console.log('error')
-        //         }
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        // },
         signupWithPassword() {
             // Reset the alert to empty
             this.alert = "";

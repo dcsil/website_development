@@ -120,7 +120,8 @@ def update_username(username):
     try:
         new_name = request.get_json().get("new_name")
         # cannot update duplicate
-        if username == new_name:
+        user = dbc.get_one_user(new_name)
+        if user:
             return jsonify(response_object)
         res = dbc.update_username(username, new_name)
         # no error message
