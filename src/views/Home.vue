@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <h1><strong>{{ mainPageMSG1 }}</strong></h1>
-    <h2><strong>{{ mainPageMSG2 }}</strong></h2>
-    <ul>
-      <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
-    </ul>
-    <div>
-      <div v-if="!this.authenticated">
-        <ul>
-          <router-link to="/register" class="button-87">Register</router-link>
-        </ul>
-        <ul>
-          <div>Already have an account? Try&nbsp;</div><router-link v-if="!this.authenticated"
-            to="/login">login</router-link>
-        </ul>
+    <div class="home">
+      <h1><strong>{{ mainPageMSG1 }}</strong></h1>
+      <h2><strong>{{ mainPageMSG2 }}</strong></h2>
+      <ul>
+        <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
+      </ul>
+      <div>
+        <div v-if="!this.authenticated">
+          <ul>
+            <router-link to="/register" class="button-87">Register</router-link>
+          </ul>
+          <ul>
+            <div>Already have an account? Try&nbsp;</div><router-link v-if="!this.authenticated"
+              to="/login">login</router-link>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +37,12 @@ export default {
 <style>
 .main {
   margin-top: 250px;
+  height: 100%;
+}
+
+.home {
+  position:relative;
+  top: 100px;
 }
 
 body {

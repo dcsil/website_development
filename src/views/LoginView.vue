@@ -62,6 +62,9 @@ export default {
                     this.$router.push('/dashboard')
                     this.$emit("authenticated", true)
                     localStorage.setItem('authenticated', 'true')
+                    localStorage.setItem('username', this.username)
+                    // localStorage.setItem('likes', JSON.stringify(response.data.data.likes))
+                    // localStorage.setItem('history', JSON.stringify(response.data.data.history))
                 } else {
                     console.log('error')
                 }
@@ -80,6 +83,8 @@ div {
 
 .login {
     font-size: x-large;
+    position: relative;
+    top: 100px;
 }
 
 .login-input {
@@ -102,7 +107,7 @@ div {
 
 .button-register {
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 100px;
     padding: 5px 15px;
     font-size: medium;
 }
