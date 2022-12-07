@@ -94,15 +94,15 @@ def insert_one_user(user_info: dict):
 
 
 def update_one_user(user_info):
-    # check if already store in DB
     username = user_info["username"]
 
     query = get_one_user(username)
-    # exists, update
     if query:
-        pass
-    # insert
-    user_col.replace_one({"username": username}, user_info)
+        # replace
+
+        user_col.replace_one({"username": username}, user_info)
+    else:
+        user_col.insert_one(user_info)
     return "Success"
 
 
@@ -156,6 +156,20 @@ def update_user_likes(username: str, influ_id: str, mode: str):
         user_info['likes'].append(like_info)
         update_one_user(user_info)
 
+    return user_info
+
+
+def update_username(username: str, new_name):
+    user_info = get_one_user(username)
+    user_info['username'] = new_name
+    user_col.replace_one({"username": username}, user_info)
+    return user_info
+
+
+def update_password(username: str, password):
+    user_info = get_one_user(username)
+    user_info['password'] = password
+    user_col.replace_one({"username": username}, user_info)
     return user_info
 
 
