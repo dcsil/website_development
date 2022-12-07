@@ -78,7 +78,7 @@
             </div>
           </div>
           <div v-for="i in [0, 1, 2]" v-bind:key="i" class="influencerInfo">
-            <!-- <a href="#" style="float: right;">...</a> -->
+            <!-- <a href="#" @click="activateLikes" style="float: right; bottom: 3px;"><i class="bi-three-dots"></i></a> -->
             <div v-if="(flagLikesInfluencers(i))" class="dashboardBox">
               <p class="influencerName">{{
                   likesInfluencers[i]["author_stats"]["nickname"]
@@ -389,9 +389,9 @@ export default {
         if (response.data.status === 'fail') {
           this.alert = 'Failed to reset username, username already exists'
         } else if (response.data.status === "success") {
-          this.username = response.data.username
+          this.username = response.data.data['username']
           this.alert = 'successfully reset username'
-          localStorage.setItem('username', this.username)
+          localStorage.setItem('username', response.data.data['username'])
         } else {
           console.log('error')
         }
@@ -515,9 +515,6 @@ export default {
         this.activeBtnLikes = curr;
         this.showAuthorIndexLikes = 3 * (curr + startIndex - 1);
       }
-      // curPage = startIndex + curr;
-      // activeBtn = curr;
-      // showAuthorIndex = 3 * (curr + startIndex - 1);
       console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
     },
   }

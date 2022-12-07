@@ -34,25 +34,6 @@ export default {
         };
     },
     methods: {
-        // loginWithPassword() {
-        //     this.alert = "";
-        //     const path = 'http://127.0.0.1:8000/influco.api/login' + '/' + this.username
-        //     axios.post(path, {
-        //         username: this.username,
-        //         password: this.password,
-        //     }
-        //     ).then(response => {
-        //         if (response.data.status === 'fail') {
-        //             this.alert = 'incorrect password'
-        //         } else if (response.data.status === "success") {
-        //             this.$router.push('/dashboard')
-        //         } else {
-        //             console.log('error')
-        //         }
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        // },
         loginWithPassword() {
             this.alert = "";
             UserLogin(this.username, this.password).then(response => {
