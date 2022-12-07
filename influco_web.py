@@ -97,7 +97,7 @@ def get_influencers_by_tag(tag_str):
         all_influ = dbc.get_all_influencer()
         match_list = da.get_match_influ(tag_str, all_influ)
         res = match_list
-        # Return error if and only if connection error
+    # Return error if and only if connection error
     except Exception:
         return jsonify("error")
     return jsonify(res)
