@@ -63,8 +63,6 @@ export default {
                     this.$emit("authenticated", true)
                     localStorage.setItem('authenticated', 'true')
                     localStorage.setItem('username', this.username)
-                    // localStorage.setItem('likes', JSON.stringify(response.data.data.likes))
-                    // localStorage.setItem('history', JSON.stringify(response.data.data.history))
                 } else {
                     console.log('error')
                 }
