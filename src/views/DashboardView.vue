@@ -319,7 +319,7 @@ export default {
 
       newUsername: '',
       newPassword: '',
-      newPasswordVerify: "",
+      newPasswordVerify: '',
       alert: '',
     };
   },
@@ -416,7 +416,9 @@ export default {
 
     resetPassword() {
       this.alert = "";
-      if (this.password !== this.passwordVerify) {
+      if (this.newPassword !== this.newPasswordVerify) {
+        console.log(this.newPassword);
+        console.log(this.newPasswordVerify);
         this.alert = "Passwords must match";
         return;
       }

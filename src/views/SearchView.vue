@@ -2,7 +2,8 @@
     <div class="search">
         <div class="searchBox">
             <label>
-                <input type="text" v-model="tag"  v-on:keyup.enter="searching();" class="searchInputBox" placeholder="Type any tag to search">
+                <input type="text" v-model="tag" v-on:keyup.enter="searching();" class="searchInputBox"
+                    placeholder="Type any tag to search">
             </label>
 
             <button class="searchButton" v-on:click="searching();">Search</button>
@@ -51,7 +52,8 @@
             <div class="authorDetails">
                 <div class="singleAuthor1">
                     <div v-if="flag(showAuthorIndex)" class="sameBorder">
-                        <a href="#" @click="addLike(showAuthorIndex)" style="float: right;"><i class="bi-plus-lg"></i></a>
+                        <a href="#" @click="addLike(showAuthorIndex)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
                         <p class="text">{{ "Author Nickname: " +
                                 influencers[showAuthorIndex]["author_stats"]["nickname"]
                         }}
@@ -89,7 +91,8 @@
                 </div>
                 <div class="singleAuthor2">
                     <div v-if="flag(showAuthorIndex + 1)" class="sameBorder">
-                        <a href="#" @click="addLike(showAuthorIndex + 1)" style="float: right;"><i class="bi-plus-lg"></i></a>
+                        <a href="#" @click="addLike(showAuthorIndex + 1)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
                         <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 1]["author_stats"]["nickname"] }}</p>
 
                         <p>{{ "Author ID: " + influencers[showAuthorIndex + 1]["author_stats"]["id"] }}</p>
@@ -126,7 +129,8 @@
 
                 <div class="singleAuthor3">
                     <div v-if="flag(showAuthorIndex + 2)" class="sameBorder">
-                        <a href="#" @click="addLike(showAuthorIndex + 2)" style="float: right;"><i class="bi-plus-lg"></i></a>
+                        <a href="#" @click="addLike(showAuthorIndex + 2)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
                         <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 2]["author_stats"]["nickname"] }}</p>
 
                         <p>{{ "Author ID: " + influencers[showAuthorIndex + 2]["author_stats"]["id"] }}</p>

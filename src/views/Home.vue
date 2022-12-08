@@ -4,7 +4,7 @@
       <h1><strong>{{ mainPageMSG1 }}</strong></h1>
       <h2><strong>{{ mainPageMSG2 }}</strong></h2>
       <ul>
-        <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
+        <button class="button-87" role="button" onclick="window.location.href='/search';">Start Browse</button>
       </ul>
       <div>
         <div v-if="!this.authenticated">
@@ -41,7 +41,7 @@ export default {
 }
 
 .home {
-  position:relative;
+  position: relative;
   top: 100px;
 }
 
@@ -49,6 +49,7 @@ body {
   background-image: url('../assets/mainPageBackground.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 a {
@@ -84,6 +85,7 @@ a {
 }
 
 .button-87 {
+  width: 200px;
   margin: 10px;
   padding: 15px 30px;
   text-align: center;
