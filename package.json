@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage && coverage run -m pytest",
     "postinstall": "npm run build",
     "start": "gunicorn influco_web:app",
     "test": "vitest --watch false && coverage run -m pytest"
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@vitest/coverage-c8": "^0.25.6",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
