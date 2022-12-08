@@ -30,9 +30,9 @@
 
 <script>
 import { UserRegister } from '../api/user';
-// same: import { UserRegister } from '@/api/user';
 
 export default {
+    name: 'register',
     data() {
         return {
             username: "",

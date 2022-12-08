@@ -202,7 +202,7 @@ import { GetInfluencerByTag } from "../api/influencer";
 import { AddLike, AddHistory } from "../api/user";
 
 export default {
-    components: {},
+    name: 'search',
     data() {
         return {
             username: localStorage.getItem('username'),

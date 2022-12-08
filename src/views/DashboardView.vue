@@ -25,7 +25,6 @@
           <a href="#" @click="activateLikes" class="list-group-item list-group-item-action bg-light"><i
               class="bi-heart-fill"></i>
             Favourite</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">About</a>
         </div>
       </div>
     </div>
@@ -292,9 +291,10 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'popper.js/dist/umd/popper.min.js';
 import 'jquery/dist/jquery.min.js';
 import { GetUser, ChangeUsername, ChangePassword, RemoveLike, ClearHistory, AddHistory, AddLike } from '../api/user';
-import { GetInfluencer } from '@/api/influencer';
+import { GetInfluencer } from '../api/influencer';
 
 export default {
+  name: 'dashboard',
 
   data() {
     return {

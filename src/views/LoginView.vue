@@ -26,6 +26,7 @@
 import { UserLogin } from '../api/user';
 
 export default {
+    name: 'login',
     data() {
         return {
             username: "",
