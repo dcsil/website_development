@@ -37,7 +37,9 @@ jobs:
           export GIT_BRANCH="master"
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
-          ./cc-test-reporter format-coverage ./coverage/clover.xml -t clover
+          ./cc-test-reporter format-coverage ./coverage/clover.xml -t clover --output "coverage/frontend.json"
+          ./cc-test-reporter format-coverage ./coverage.xml -t coverage.py --output "coverage/backend.json"
+          ./cc-test-reporter sum-coverage --output - --parts 2 coverage/*.json > coverage/codeclimate.json
           ./cc-test-reporter upload-coverage --id $CC_TEST_REPORTER_ID
 
 
