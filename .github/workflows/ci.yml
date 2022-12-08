@@ -34,10 +34,10 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: 197bd3ea34503bd3f3b767813ef33137c182c8b524f90b1611ce03a46c18791e
         run: |
-          export GIT_BRANCH="${GITHUB_REF##*/}"
+          export GIT_BRANCH="master"
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
-          ./cc-test-reporter format-coverage .clover.xml -t coverage.py
+          ./cc-test-reporter format-coverage ./coverage/clover.xml -t coverage.py
           ./cc-test-reporter upload-coverage --id $CC_TEST_REPORTER_ID
 
 
