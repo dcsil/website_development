@@ -26,25 +26,27 @@ jobs:
       - name: Install requirements
 
         run: npm install | pip3 install -r requirements.txt
-      - name: Run tests & coverage
-        run: npm run coverage
-        env:
-          CI: true
+#      - name: Run tests & coverage
+#        run: npm run coverage
+#        env:
+#          CI: true
 
-      #      - name: Test & publish code coverage
-      #        uses: paambaati/codeclimate-action@v3.2.0
-      #        env:
-      #          CC_TEST_REPORTER_ID: 197bd3ea34503bd3f3b767813ef33137c182c8b524f90b1611ce03a46c18791e
-      #        with:
-      #          coverageCommand: npm run coverage
-      #          debug: true
       # "coverage": "vitest run --coverage && coverage run -m pytest",
-      - name: Upload to CodeClimate
-        env:
-          CC_TEST_REPORTER_ID: 197bd3ea34503bd3f3b767813ef33137c182c8b524f90b1611ce03a46c18791e
-        run: |
-          export GIT_BRANCH="${GITHUB_REF##*/}"
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter format-coverage -t coverage.xml
-          ./cc-test-reporter upload-coverage --id $CC_TEST_REPORTER_ID
+#      - name: Upload to CodeClimate
+#        env:
+#          CC_TEST_REPORTER_ID: 197bd3ea34503bd3f3b767813ef33137c182c8b524f90b1611ce03a46c18791e
+#        run: |
+#          export GIT_BRANCH="${GITHUB_REF##*/}"
+#          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#          chmod +x ./cc-test-reporter
+#          ./cc-test-reporter format-coverage -t coverage.xml
+#          ./cc-test-reporter upload-coverage --id $CC_TEST_REPORTER_ID
+        - name: Test & publish code coverage
+          uses: paambaati/codeclimate-action@v3.2.0
+          env:
+            CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          with:
+            coverageCommand: npm run coverage
+            coverageLocations: |
+#              ${{github.workspace}}/client/coverage/lcov.info:lcov
+              ${{github.workspace}}/coverage.xml
