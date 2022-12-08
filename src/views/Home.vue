@@ -4,7 +4,7 @@
       <h1><strong>{{ mainPageMSG1 }}</strong></h1>
       <h2><strong>{{ mainPageMSG2 }}</strong></h2>
       <ul>
-        <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
+        <button class="button-87" role="button" onclick="window.location.href='/search';">Start Browse</button>
       </ul>
       <div>
         <div v-if="!this.authenticated">
