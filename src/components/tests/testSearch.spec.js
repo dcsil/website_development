@@ -1,11 +1,11 @@
 import { mount } from "@vue/test-utils";
-import search from "src/views/SearchView.vue";
+import searchView from "src/views/SearchView.vue";
 import { describe, it, expect } from "vitest";
 
 describe("SearchView.vue", () => {
 
   it("test data states", () => {
-    const wrapper = mount(search);
+    const wrapper = mount(searchView);
     
     expect(wrapper.vm.username).toBe(null);
     expect(wrapper.vm.tag).toBe('');
@@ -29,13 +29,13 @@ describe("SearchView.vue", () => {
   });
 
   it("test page content", () => { 
-    const wrapper = mount(search);
+    const wrapper = mount(searchView);
     
     expect(wrapper.html()).toContain('Search')
   })
 
   it("test button numbers", () => {
-    const wrapper = mount(search);
+    const wrapper = mount(searchView);
 
     expect(wrapper.findAll("button")).toHaveLength(1);
   });

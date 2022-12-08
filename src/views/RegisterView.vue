@@ -32,7 +32,7 @@
 import { UserRegister } from '../api/user';
 
 export default {
-    name: 'register',
+    name: 'registerView',
     data() {
         return {
             username: "",

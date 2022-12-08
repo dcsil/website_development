@@ -1,11 +1,11 @@
 import { mount } from "@vue/test-utils";
-import dashboard from "src/views/DashboardView.vue";
+import dashboardView from "src/views/DashboardView.vue";
 import { describe, it, expect } from "vitest";
 
 describe("DashboardView.vue", () => {
 
   it("test data states", () => {
-    const wrapper = mount(dashboard);
+    const wrapper = mount(dashboardView);
     
     expect(wrapper.vm.username).toBe(null);
     expect(wrapper.vm.history).toBe(null);
@@ -20,7 +20,7 @@ describe("DashboardView.vue", () => {
   });
 
   it("test page content", () => { 
-    const wrapper = mount(dashboard);
+    const wrapper = mount(dashboardView);
     
     expect(wrapper.html()).toContain('Account')
     expect(wrapper.html()).toContain('Reset Username')
@@ -34,7 +34,7 @@ describe("DashboardView.vue", () => {
   })
 
   it("test button numbers", () => {
-    const wrapper = mount(dashboard);
+    const wrapper = mount(dashboardView);
 
     expect(wrapper.findAll("router-link")).toHaveLength(0);
     expect(wrapper.findAll("button")).toHaveLength(2);

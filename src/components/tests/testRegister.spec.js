@@ -1,11 +1,11 @@
 import { mount } from "@vue/test-utils";
-import register from "src/views/RegisterView.vue";
+import registerView from "src/views/RegisterView.vue";
 import { describe, it, expect } from "vitest";
 
 describe("RegisterView.vue", () => {
 
   it("test register states", () => {
-    const wrapper = mount(register);
+    const wrapper = mount(registerView);
 
     expect(wrapper.vm.username).toBe('');
     expect(wrapper.vm.password).toBe('');
@@ -21,7 +21,7 @@ describe("RegisterView.vue", () => {
   });
 
   it("test page content", () => { 
-    const wrapper = mount(register);
+    const wrapper = mount(registerView);
     expect(wrapper.html()).toContain('Username')
     expect(wrapper.html()).toContain('Password')
     expect(wrapper.html()).toContain('Verify password')
@@ -30,14 +30,14 @@ describe("RegisterView.vue", () => {
   })
 
   it("test button numbers", () => {
-    const wrapper = mount(register);
+    const wrapper = mount(registerView);
 
     expect(wrapper.findAll("router-link")).toHaveLength(1);
     expect(wrapper.findAll("button")).toHaveLength(1);
   });
 
   it("test login home page", async () => {
-    const wrapper = mount(register);
+    const wrapper = mount(registerView);
 
     wrapper.setData({ username: 'user1000', password: 'user1000', passwordVerify: 'user100' });
     await wrapper.find('input[type=text]').setValue('user1000')

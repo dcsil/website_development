@@ -294,7 +294,7 @@ import { GetUser, ChangeUsername, ChangePassword, RemoveLike, ClearHistory, AddH
 import { GetInfluencer } from '../api/influencer';
 
 export default {
-  name: 'dashboard',
+  name: 'dashboardView',
 
   data() {
     return {
@@ -417,8 +417,6 @@ export default {
     resetPassword() {
       this.alert = "";
       if (this.newPassword !== this.newPasswordVerify) {
-        console.log(this.newPassword);
-        console.log(this.newPasswordVerify);
         this.alert = "Passwords must match";
         return;
       }
