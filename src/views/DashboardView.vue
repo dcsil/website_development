@@ -44,6 +44,7 @@
           </div>
           <div v-for="i in [0, 1, 2]" v-bind:key="i" class="influencerInfo">
             <div v-if="(flagHistoryInfluencers(i))" class="dashboardBox">
+              <a href="#" @click="addLike(i)" style="float: right;"><i class="bi-plus-lg"></i></a>
               <p class="influencerName">{{
                   historyInfluencers[i]["author_stats"]["nickname"]
               }}
@@ -58,8 +59,8 @@
               <p>{{ "Video Count: " + historyInfluencers[i]["author_stats"]["stats"]["videoCount"] }}
               </p> -->
               <div class="links">
-                <p>{{ "Influencer Detail: " }}</p>
-                <router-link
+                <p>{{ "Detail: " }}</p>
+                <router-link @click="addHistory(i, 'fromHistory')"
                   :to="{ name: 'Detail', params: { author_id: historyInfluencers[i]['author_stats']['id'] } }">{{
                       "@" + historyInfluencers[i]["author_stats"]["id"]
                   }}</router-link>
@@ -78,8 +79,8 @@
             </div>
           </div>
           <div v-for="i in [0, 1, 2]" v-bind:key="i" class="influencerInfo">
-            <!-- <a href="#" @click="activateLikes" style="float: right; bottom: 3px;"><i class="bi-three-dots"></i></a> -->
             <div v-if="(flagLikesInfluencers(i))" class="dashboardBox">
+              <a href="#" @click="removeLike(i)" style="float: right;"><i class="bi-x-lg"></i></a>
               <p class="influencerName">{{
                   likesInfluencers[i]["author_stats"]["nickname"]
               }}
@@ -94,8 +95,8 @@
               <p>{{ "Video Count: " + likesInfluencers[i]["author_stats"]["stats"]["videoCount"] }}
               </p> -->
               <div class="links">
-                <p>{{ "Influencer Detail: " }}</p>
-                <router-link
+                <p>{{ "Detail: " }}</p>
+                <router-link @click="addHistory(i, 'fromLikes')"
                   :to="{ name: 'Detail', params: { author_id: likesInfluencers[i]['author_stats']['id'] } }">{{
                       "@" + likesInfluencers[i]["author_stats"]["id"]
                   }}</router-link>
@@ -109,10 +110,17 @@
       </div>
     </div>
     <div v-if="this.historyActivated">
+      <div style="font-size: xx-larger; font-weight: bold; margin-top: 30px; text-align: center;"
+        class="dashboardTitle">History
+
+      </div>
+      <div class="clearHistoryButton">
+        <button @click="clearHistory" class="clearHistory">Clear History</button>
+      </div>
       <div v-for="i in [showAuthorIndexHistory, showAuthorIndexHistory + 1, showAuthorIndexHistory + 2]" v-bind:key="i"
         class="influencerInfoHistory">
-
         <div v-if="(flagHistoryInfluencers(i))" class="dashboardBox">
+          <a href="#" @click="addLike(i)" style="float: right;"><i class="bi-plus-lg"></i></a>
           <p class="influencerName">{{
               historyInfluencers[i]["author_stats"]["nickname"]
           }}
@@ -127,15 +135,16 @@
           <p>{{ "Video Count: " + historyInfluencers[i]["author_stats"]["stats"]["videoCount"] }}
           </p>
           <div class="links">
-            <p>{{ "Influencer Detail: " }}</p>
-            <router-link :to="{ name: 'Detail', params: { author_id: historyInfluencers[i]['author_stats']['id'] } }">{{
-                "@" + historyInfluencers[i]["author_stats"]["id"]
-            }}</router-link>
+            <p>{{ "Detail: " }}</p>
+            <router-link @click="addHistory(i, 'fromHistory')"
+              :to="{ name: 'Detail', params: { author_id: historyInfluencers[i]['author_stats']['id'] } }">{{
+                  "@" + historyInfluencers[i]["author_stats"]["id"]
+              }}</router-link>
           </div>
         </div>
       </div>
-      <div class="index">
-        <button class="indexButton" :disabled="leftNav()"
+      <div class="index indexButtonDashboard">
+        <button class="indexButton" :disabled="leftNav(this.startIndexHistory)"
           v-on:click="leftMove(this.startIndexHistory, this.curPageHistory, 'activeBtnHistory')">{{ "<" }} </button>
 
             <button class="indexButton" :class="{ active: activeBtnHistory === 0 }"
@@ -173,10 +182,14 @@
       </div>
     </div>
     <div v-if="this.likesActivated">
+      <div style="font-size: xx-larger; font-weight: bold; margin-top: 30px; text-align: center;"
+        class="dashboardTitle">Favourite</div>
+
       <div v-for="i in [showAuthorIndexLikes, showAuthorIndexLikes + 1, showAuthorIndexLikes + 2]" v-bind:key="i"
         class="influencerInfoHistory">
 
         <div v-if="(flagLikesInfluencers(i))" class="dashboardBox">
+          <a href="#" @click="removeLike(i)" style="float: right;"><i class="bi-x-lg"></i></a>
           <p class="influencerName">{{
               likesInfluencers[i]["author_stats"]["nickname"]
           }}
@@ -191,15 +204,16 @@
           <p>{{ "Video Count: " + likesInfluencers[i]["author_stats"]["stats"]["videoCount"] }}
           </p>
           <div class="links">
-            <p>{{ "Influencer Detail: " }}</p>
-            <router-link :to="{ name: 'Detail', params: { author_id: likesInfluencers[i]['author_stats']['id'] } }">{{
-                "@" + likesInfluencers[i]["author_stats"]["id"]
-            }}</router-link>
+            <p>{{ "Detail: " }}</p>
+            <router-link @click="addHistory(i, 'fromLikes')"
+              :to="{ name: 'Detail', params: { author_id: likesInfluencers[i]['author_stats']['id'] } }">{{
+                  "@" + likesInfluencers[i]["author_stats"]["id"]
+              }}</router-link>
           </div>
         </div>
       </div>
-      <div class="index">
-        <button class="indexButton" :disabled="leftNav()"
+      <div class="index indexButtonDashboard">
+        <button class="indexButton" :disabled="leftNav(this.startIndexLikes)"
           v-on:click="leftMove(this.startIndexLikes, this.curPageLikes, 'activeBtnLikes')">{{ "<" }} </button>
 
             <button class="indexButton" :class="{ active: activeBtnLikes === 0 }"
@@ -277,7 +291,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'popper.js/dist/umd/popper.min.js';
 import 'jquery/dist/jquery.min.js';
-import { GetUser, ChangeUsername, ChangePassword } from '../api/user';
+import { GetUser, ChangeUsername, ChangePassword, RemoveLike, ClearHistory, AddHistory, AddLike } from '../api/user';
 import { GetInfluencer } from '@/api/influencer';
 
 export default {
@@ -330,10 +344,10 @@ export default {
 
     activateAccount() {
       this.newUsername = '',
-      this.newPassword = '',
-      this.newPasswordVerify = "",
-      this.alert = '',
-      this.likesActivated = false;
+        this.newPassword = '',
+        this.newPasswordVerify = "",
+        this.alert = '',
+        this.likesActivated = false;
       this.historyActivated = false;
       this.resetUsernameActivated = false;
       this.resetPasswordActivated = false;
@@ -341,10 +355,10 @@ export default {
 
     activateLikes() {
       this.newUsername = '',
-      this.newPassword = '',
-      this.newPasswordVerify = "",
-      this.alert = '',
-      this.likesActivated = true;
+        this.newPassword = '',
+        this.newPasswordVerify = "",
+        this.alert = '',
+        this.likesActivated = true;
       this.historyActivated = false;
       this.resetUsernameActivated = false;
       this.resetPasswordActivated = false;
@@ -352,10 +366,10 @@ export default {
 
     activateHistory() {
       this.newUsername = '',
-      this.newPassword = '',
-      this.newPasswordVerify = "",
-      this.alert = '',
-      this.likesActivated = false;
+        this.newPassword = '',
+        this.newPasswordVerify = "",
+        this.alert = '',
+        this.likesActivated = false;
       this.historyActivated = true;
       this.resetUsernameActivated = false;
       this.resetPasswordActivated = false;
@@ -363,10 +377,10 @@ export default {
 
     activateResetUsername() {
       this.newUsername = '',
-      this.newPassword = '',
-      this.newPasswordVerify = "",
-      this.alert = '',
-      this.likesActivated = false;
+        this.newPassword = '',
+        this.newPasswordVerify = "",
+        this.alert = '',
+        this.likesActivated = false;
       this.historyActivated = false;
       this.resetUsernameActivated = true;
       this.resetPasswordActivated = false;
@@ -374,10 +388,10 @@ export default {
 
     activateResetPassword() {
       this.newUsername = '',
-      this.newPassword = '',
-      this.newPasswordVerify = "",
-      this.alert = '',
-      this.likesActivated = false;
+        this.newPassword = '',
+        this.newPasswordVerify = "",
+        this.alert = '',
+        this.likesActivated = false;
       this.historyActivated = false;
       this.resetUsernameActivated = false;
       this.resetPasswordActivated = true;
@@ -419,12 +433,82 @@ export default {
       });
     },
 
+    addLike(index) {
+      AddLike(this.username, this.historyInfluencers[index]["author_stats"]["id"]).then(response => {
+        if (response.data.status === 'fail') {
+          alert('Failed to add this influencer to Favourite')
+        } else if (response.data.status === "success") {
+          alert('Successfully added this influencer to Favourite')
+          this.$router.go()
+        } else {
+          console.log('error')
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+
+    removeLike(index) {
+      RemoveLike(this.username, this.likesInfluencers[index]["author_stats"]["id"]).then(response => {
+        if (response.data.status === 'fail') {
+          alert('Failed to remove this influencer from Favourite')
+        } else if (response.data.status === "success") {
+          this.$router.go()
+        } else {
+          console.log('error')
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+
+    clearHistory() {
+      ClearHistory(this.username).then(response => {
+        if (response.data.status === 'fail') {
+          alert('Failed to clear history')
+        } else if (response.data.status === "success") {
+          this.$router.go()
+          alert('Successfully cleared history')
+        } else {
+          console.log('error')
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+
+    addHistory(index, fromInfluencers) {
+      if (fromInfluencers === 'fromHistory') {
+        AddHistory(this.username, this.historyInfluencers[index]["author_stats"]["id"]).then(response => {
+          if (response.data.status === 'fail') {
+            console.log('Failed to add this influencer to History')
+          } else if (response.data.status === "success") {
+            console.log('Successfully added this influencer to History')
+          } else {
+            console.log('error')
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      } else {
+        AddHistory(this.username, this.likesInfluencers[index]["author_stats"]["id"]).then(response => {
+          if (response.data.status === 'fail') {
+            console.log('Failed to add this influencer to History')
+          } else if (response.data.status === "success") {
+            console.log('Successfully added this influencer to History')
+          } else {
+            console.log('error')
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+    },
+
     async updateData() {
       await GetUser(this.username).then(response => {
         this.likes = response.data.likes
         this.history = response.data.history
-        console.log("this.likes: ", this.likes)
-        console.log("this.history: ", this.history)
 
         for (let i = 0; i < this.likes.length; i++) {
           GetInfluencer(this.likes[i]["influ_id"]).then(response => {
@@ -515,7 +599,6 @@ export default {
         this.activeBtnLikes = curr;
         this.showAuthorIndexLikes = 3 * (curr + startIndex - 1);
       }
-      console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
     },
   }
 }
@@ -564,7 +647,7 @@ export default {
 
 .influencerInfoHistory {
   font-size: large;
-  margin-top: 15%;
+  margin-top: 6%;
   margin-left: 3%;
   margin-right: 1%;
   right: 7px;
@@ -576,7 +659,8 @@ export default {
 
 .influencerName {
   font-style: italic;
-  font-size: large;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 .noRecentData {
@@ -597,6 +681,26 @@ export default {
   height: 25px;
   width: 60px;
 }
+
+.clearHistory {
+  border-radius: 15px;
+  background: rgb(253, 226, 230);
+  font-size: medium;
+  border: 1px;
+  height: 25px;
+  width: 120px;
+  float: right;
+}
+
+.clearHistoryButton {
+  height: 25px;
+  width: 100%;
+  right: 2px;
+}
+
+/* .indexButtonDashboard {
+  margin-top: 200px;
+} */
 
 .dashboardBox {
   text-align: left;
