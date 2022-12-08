@@ -11,12 +11,6 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav mr-auto">
-          <!-- <div v-if="this.authenticated">
-            <router-link to="/popular" class="nav-item nav-link">Popular</router-link>
-          </div>
-          <div v-else-if="!this.authenticated">
-            <a href="/login" class="nav-item nav-link">Popular</a>
-          </div> -->
           <div v-if="this.authenticated">
             <router-link to="/search" class="nav-item nav-link">Browse</router-link>
           </div>
