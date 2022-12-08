@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <!-- <img src="../assets/INFLUCO.jpg"> -->
-    <h1><strong>{{ mainPageMSG1 }}</strong></h1>
-    <h2><strong>{{ mainPageMSG2 }}</strong></h2>
-    <ul>
-      <button class="button-87" role="button" onclick="window.location.href='/popular';">Start Browse</button>
-    </ul>
-    <ul>
-      <button class="button-87" role="button" onclick="window.location.href='/register';">Register</button>
-    </ul>
-    <ul>
-      <div>Already have an account? Try&nbsp;</div><a href="/login">login</a>
-    </ul>
+    <div class="home">
+      <h1><strong>{{ mainPageMSG1 }}</strong></h1>
+      <h2><strong>{{ mainPageMSG2 }}</strong></h2>
+      <ul>
+        <button class="button-87" role="button" onclick="window.location.href='/search';">Start Browse</button>
+      </ul>
+      <div>
+        <div v-if="!this.authenticated">
+          <ul>
+            <router-link to="/register" class="button-87">Register</router-link>
+          </ul>
+          <ul>
+            <div>Already have an account? Try&nbsp;</div><router-link v-if="!this.authenticated"
+              to="/login">login</router-link>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,20 +26,30 @@ export default {
   name: 'app',
   data() {
     return {
+      authenticated: (localStorage.getItem('authenticated') === 'true'),
       mainPageMSG1: 'Welcome to InfluCo!',
       mainPageMSG2: 'The world’s most powerful influencer analysis platform'
     }
-  }
+  },
 }
 </script>
 
 <style>
 .main {
   margin-top: 250px;
+  height: 100%;
+}
+
+.home {
+  position: relative;
+  top: 100px;
 }
 
 body {
   background-image: url('../assets/mainPageBackground.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 a {
@@ -69,6 +85,7 @@ a {
 }
 
 .button-87 {
+  width: 200px;
   margin: 10px;
   padding: 15px 30px;
   text-align: center;
@@ -99,30 +116,3 @@ a {
   transform: scale(0.95);
 }
 </style>
-
-<!-- <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style> -->

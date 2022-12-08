@@ -23,10 +23,10 @@
 </template>
 
 <script>
-// import axios from 'axios';
 import { UserLogin } from '../api/user';
 
 export default {
+    name: 'loginView',
     data() {
         return {
             username: "",
@@ -35,25 +35,6 @@ export default {
         };
     },
     methods: {
-        // loginWithPassword() {
-        //     this.alert = "";
-        //     const path = 'http://127.0.0.1:8000/influco.api/login' + '/' + this.username
-        //     axios.post(path, {
-        //         username: this.username,
-        //         password: this.password,
-        //     }
-        //     ).then(response => {
-        //         if (response.data.status === 'fail') {
-        //             this.alert = 'incorrect password'
-        //         } else if (response.data.status === "success") {
-        //             this.$router.push('/dashboard')
-        //         } else {
-        //             console.log('error')
-        //         }
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        // },
         loginWithPassword() {
             this.alert = "";
             UserLogin(this.username, this.password).then(response => {
@@ -61,6 +42,9 @@ export default {
                     this.alert = 'incorrect password'
                 } else if (response.data.status === "success") {
                     this.$router.push('/dashboard')
+                    this.$emit("authenticated", true)
+                    localStorage.setItem('authenticated', 'true')
+                    localStorage.setItem('username', this.username)
                 } else {
                     console.log('error')
                 }
@@ -79,6 +63,8 @@ div {
 
 .login {
     font-size: x-large;
+    position: relative;
+    top: 100px;
 }
 
 .login-input {
@@ -101,7 +87,7 @@ div {
 
 .button-register {
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 100px;
     padding: 5px 15px;
     font-size: medium;
 }

@@ -97,7 +97,7 @@ def get_influencers_by_tag(tag_str):
         all_influ = dbc.get_all_influencer()
         match_list = da.get_match_influ(tag_str, all_influ)
         res = match_list
-        # Return error if and only if connection error
+    # Return error if and only if connection error
     except Exception:
         return jsonify("error")
     return jsonify(res)
@@ -112,6 +112,40 @@ def get_one_user(username):
     except Exception:
         return jsonify("error")
     return jsonify(res)
+
+
+@app.route('/influco.api/username/<string:username>', methods=['post'])
+def update_username(username):
+    response_object = {'status': 'fail'}
+    try:
+        new_name = request.get_json().get("new_name")
+        # cannot update duplicate
+        user = dbc.get_one_user(new_name)
+        if user:
+            return jsonify(response_object)
+        res = dbc.update_username(username, new_name)
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
+
+
+@app.route('/influco.api/password/<string:username>', methods=['post'])
+def update_password(username):
+    response_object = {'status': 'fail'}
+    try:
+        password = request.get_json().get("password")
+        res = dbc.update_password(username, password)
+        # no error message
+        if not isinstance(res, str):
+            response_object['status'] = 'success'
+            response_object['data'] = res
+    except Exception:
+        return jsonify({'status': 'error'})
+    return jsonify(response_object)
 
 
 @app.route('/influco.api/register/<string:username>', methods=['put'])
@@ -147,9 +181,7 @@ def login(username):
         user_info = dbc.get_one_user(data["username"])
         if not user_info:
             return jsonify(response_object)
-        ############## will be replaced ##############
         if user_info['password'] != data["password"]:
-            ##############################################
             return jsonify(response_object)
         response_object['status'] = 'success'
         # Frontend: get user data

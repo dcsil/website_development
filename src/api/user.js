@@ -31,8 +31,30 @@ export function GetUser(username) {
   });
 }
 
+export function ChangeUsername(username, new_name) {
+  const data = {
+    new_name: new_name,
+  };
+  return service.request({
+    method: 'post',
+    url: `/username/${username}`,
+    data,
+  });
+}
+
+export function ChangePassword(username, password) {
+  const data = {
+    password: password,
+  };
+  return service.request({
+    method: 'post',
+    url: `/password/${username}`,
+    data,
+  });
+}
+
 export function AddHistory(username, influ_id) {
-const data = {
+  const data = {
     influ_id: influ_id,
   };
   return service.request({
@@ -50,7 +72,7 @@ export function ClearHistory(username) {
 }
 
 export function AddLike(username, influ_id) {
-const data = {
+  const data = {
     influ_id: influ_id,
   };
   return service.request({
@@ -61,7 +83,7 @@ const data = {
 }
 
 export function RemoveLike(username, influ_id) {
-const data = {
+  const data = {
     influ_id: influ_id,
   };
   return service.request({

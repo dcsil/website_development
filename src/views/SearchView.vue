@@ -2,179 +2,196 @@
     <div class="search">
         <div class="searchBox">
             <label>
-                <input type="text" v-model="tag" class="searchInputBox" placeholder="Type any tag to search">
+                <input type="text" v-model="tag" v-on:keyup.enter="searching();" class="searchInputBox"
+                    placeholder="Type any tag to search">
             </label>
 
             <button class="searchButton" v-on:click="searching();">Search</button>
         </div>
-    </div>
 
-    <div v-if="isLoading" class="loading">
-        <h1>Loading ...</h1>
-    </div>
 
-    <div v-if="isShowing" class="result">
-        <div class="tagButtonsList">
-            <button class="allButton" v-on:click="showAll()">{{ "ALL" }}</button>
-
-            <button class="allButton" :disabled="leftNavTag()" v-on:click="leftMoveTag()">{{ "<" }}</button>
-
-                    <button class="tagButtons"
-                        v-for="item in (tagFrequencyAll().slice(startIndexTag, startIndexTag + 5))" v-bind:key="item[0]"
-                        :class="{ active: activeTag === item[0] }" v-on:click="filterTag(item[0])">{{ "#" + item[0]
-                        }}</button>
-
-                    <button class="allButton" :disabled="rightNavTag()" v-on:click="rightMoveTag()">></button>
+        <div v-if="isLoading" class="loading">
+            <h1>Loading ...</h1>
         </div>
 
-        <div class="filterButtons">
+        <div v-if="isShowing" class="result">
+            <div class="tagButtonsList">
+                <button class="allButton" v-on:click="showAll()">{{ "ALL" }}</button>
 
-            <label>
-                <!-- <select v-model="selected" v-on:click="sort()"> -->
-                <select v-model="selected" v-on:change="sort()">
-                    <p>Choose order here: </p>
-                    <!--                    <option value="" selected disabled hidden>Choose sort by:</option>-->
-                    <!-- TODO: <option value="Recommend">Recommend</option>-->
-                    <option value="">Default</option>
-                    <option value="Followers: High to Low">Followers: High to Low</option>
-                    <option value="Video Count: High to Low">Video Count: High to Low</option>
-                    <option value="Like Count: High to Low">Like Count: High to Low</option>
-                </select>
-                <p>Sorted by {{ selected }}</p>
-            </label>
-        </div>
+                <button class="allButton" :disabled="leftNavTag()" v-on:click="leftMoveTag()">{{ "<" }}</button>
 
-        <div>
-            <h4>Total results: {{ influencers !== 0 ? influencers.length : "Loading" }}</h4>
-        </div>
-        <div class="authorDetails">
-            <div class="singleAuthor1">
-                <div v-if="flag(showAuthorIndex)" class="sameBorder">
-                    <p class="text">{{ "Author Nickname: " + influencers[showAuthorIndex]["author_stats"]["nickname"] }}
-                    </p>
+                        <button class="tagButtons"
+                            v-for="item in (tagFrequencyAll().slice(startIndexTag, startIndexTag + 5))"
+                            v-bind:key="item[0]" :class="{ active: activeTag === item[0] }"
+                            v-on:click="filterTag(item[0])">{{ "#" + item[0]
+                            }}</button>
 
-                    <p>{{ "Author ID: " + influencers[showAuthorIndex]["author_stats"]["id"] }}</p>
+                        <button class="allButton" :disabled="rightNavTag()" v-on:click="rightMoveTag()">></button>
+            </div>
 
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"] }}
-                    </p>
+            <div class="filterButtons">
 
-                    <p>{{ "Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heart"] }}</p>
+                <label>
+                    <!-- <select v-model="selected" v-on:click="sort()"> -->
+                    <select v-model="selected" v-on:change="sort()" style="border-radius: 30px; border-width: 2px;">
+                        <p>Choose order here: </p>
+                        <!--                    <option value="" selected disabled hidden>Choose sort by:</option>-->
+                        <!-- TODO: <option value="Recommend">Recommend</option>-->
+                        <option value="">Default</option>
+                        <option value="Followers: High to Low">Followers: High to Low</option>
+                        <option value="Video Count: High to Low">Video Count: High to Low</option>
+                        <option value="Like Count: High to Low">Like Count: High to Low</option>
+                    </select>
+                    <p>Sorted by {{ selected }}</p>
+                </label>
+            </div>
 
-                    <p>{{ "Video Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["videoCount"] }}</p>
+            <div>
+                <h4>Total results: {{ influencers !== 0 ? influencers.length : "Loading" }}</h4>
+            </div>
+            <div class="authorDetails">
+                <div class="singleAuthor1">
+                    <div v-if="flag(showAuthorIndex)" class="sameBorder">
+                        <a href="#" @click="addLike(showAuthorIndex)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
+                        <p class="text">{{ "Author Nickname: " +
+                                influencers[showAuthorIndex]["author_stats"]["nickname"]
+                        }}
+                        </p>
 
-                    <div class="links">
-                        <p>{{ "Official site: " }}</p>
-                        <a :href="influencers[showAuthorIndex].url"> {{ influencers[showAuthorIndex]["url"] }}</a>
+                        <p>{{ "Author ID: " + influencers[showAuthorIndex]["author_stats"]["id"] }}</p>
+
+                        <p>{{ "Follower Count: " +
+                                influencers[showAuthorIndex]["author_stats"]["stats"]["followerCount"]
+                        }}
+                        </p>
+
+                        <p>{{ "Like Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["heart"] }}</p>
+
+                        <p>{{ "Video Count: " + influencers[showAuthorIndex]["author_stats"]["stats"]["videoCount"] }}
+                        </p>
+
+                        <div class="links">
+                            <p>{{ "Site: " }}</p>
+                            <a :href="influencers[showAuthorIndex].url"> {{ influencers[showAuthorIndex]["url"] }}</a>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Popular tags: " }}</p>
+                            <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex])"
+                                v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Detail: " }}</p>
+                            <router-link @click="addHistory(showAuthorIndex)"
+                                :to="{ name: 'Detail', params: { author_id: influencers[showAuthorIndex]['author_stats']['id'] } }">{{
+                                        "@" + influencers[showAuthorIndex]["author_stats"]["id"]
+                                }}</router-link>
+                        </div>
                     </div>
-                    <div class="links">
-                        <p>{{ "Popular tags: " }}</p>
-                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex])"
-                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                </div>
+                <div class="singleAuthor2">
+                    <div v-if="flag(showAuthorIndex + 1)" class="sameBorder">
+                        <a href="#" @click="addLike(showAuthorIndex + 1)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
+                        <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 1]["author_stats"]["nickname"] }}</p>
+
+                        <p>{{ "Author ID: " + influencers[showAuthorIndex + 1]["author_stats"]["id"] }}</p>
+
+                        <p>{{ "Follower Count: " + influencers[showAuthorIndex +
+                                1]["author_stats"]["stats"]["followerCount"]
+                        }}</p>
+
+                        <p>{{ "Like Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["heart"] }}</p>
+
+                        <p>{{ "Video Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["videoCount"]
+                        }}
+                        </p>
+
+                        <div class="links">
+                            <p>{{ "Site: " }}</p>
+                            <a :href="influencers[showAuthorIndex + 1].url"> {{ influencers[showAuthorIndex + 1]["url"]
+                            }}</a>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Popular tags: " }}</p>
+                            <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 1])"
+                                v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Detail: " }}</p>
+                            <router-link @click="addHistory(showAuthorIndex + 1)"
+                                :to="{ name: 'Detail', params: { author_id: influencers[showAuthorIndex + 1]['author_stats']['id'] } }">{{
+                                        "@" + influencers[showAuthorIndex + 1]["author_stats"]["id"]
+                                }}</router-link>
+                        </div>
                     </div>
-                    <div class="links">
-                        <p>{{ "Influencer Detail: " }}</p>
-                        <a class="searchlink" :href="`/detail/${influencers[showAuthorIndex].author_stats.id}`"> {{ "@"
-                                +
-                                influencers[showAuthorIndex].author_stats.id
-                        }}</a>
+                </div>
+
+                <div class="singleAuthor3">
+                    <div v-if="flag(showAuthorIndex + 2)" class="sameBorder">
+                        <a href="#" @click="addLike(showAuthorIndex + 2)" style="float: right;"><i
+                                class="bi-plus-lg"></i></a>
+                        <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 2]["author_stats"]["nickname"] }}</p>
+
+                        <p>{{ "Author ID: " + influencers[showAuthorIndex + 2]["author_stats"]["id"] }}</p>
+
+                        <p>{{ "Follower Count: " + influencers[showAuthorIndex +
+                                2]["author_stats"]["stats"]["followerCount"]
+                        }}</p>
+
+                        <p>{{ "Like Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["heart"] }}</p>
+
+                        <p>{{ "Video Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["videoCount"]
+                        }}
+                        </p>
+
+                        <div class="links">
+                            <p>{{ "Site: " }}</p>
+                            <a :href="influencers[showAuthorIndex + 2].url"> {{ influencers[showAuthorIndex + 2]["url"]
+                            }}</a>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Popular tags: " }}</p>
+                            <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 2])"
+                                v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
+                        </div>
+                        <div class="links">
+                            <p>{{ "Detail: " }}</p>
+                            <router-link @click="addHistory(showAuthorIndex + 2)"
+                                :to="{ name: 'Detail', params: { author_id: influencers[showAuthorIndex + 2]['author_stats']['id'] } }">{{
+                                        "@" + influencers[showAuthorIndex + 2]["author_stats"]["id"]
+                                }}</router-link>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="singleAuthor2">
-                <div v-if="flag(showAuthorIndex + 1)" class="sameBorder">
-                    <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 1]["author_stats"]["nickname"] }}</p>
 
-                    <p>{{ "Author ID: " + influencers[showAuthorIndex + 1]["author_stats"]["id"] }}</p>
+            <div class="index">
+                <button class="indexButton" :disabled="leftNav()" v-on:click="leftMove()">{{ "<" }} </button>
 
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex +
-                            1]["author_stats"]["stats"]["followerCount"]
-                    }}</p>
+                        <button class="indexButton" :class="{ active: activeBtn === 0 }" :disabled="checkIndex(0)"
+                            v-on:click="showAuthor(0)">{{ startIndex
+                            }}</button>
+                        <button class="indexButton" :class="{ active: activeBtn === 1 }" :disabled="checkIndex(1)"
+                            v-on:click="showAuthor(1)">{{ 1 +
+                                    startIndex
+                            }}</button>
+                        <button class="indexButton" :class="{ active: activeBtn === 2 }" :disabled="checkIndex(2)"
+                            v-on:click="showAuthor(2)">{{ 2 +
+                                    startIndex
+                            }}</button>
+                        <button class="indexButton" :class="{ active: activeBtn === 3 }" :disabled="checkIndex(3)"
+                            v-on:click="showAuthor(3)">{{ 3 +
+                                    startIndex
+                            }}</button>
+                        <button class="indexButton" :class="{ active: activeBtn === 4 }" :disabled="checkIndex(4)"
+                            v-on:click="showAuthor(4)">{{ 4 +
+                                    startIndex
+                            }}</button>
 
-                    <p>{{ "Like Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["heart"] }}</p>
-
-                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 1]["author_stats"]["stats"]["videoCount"] }}
-                    </p>
-
-                    <div class="links">
-                        <p>{{ "Official site: " }}</p>
-                        <a :href="influencers[showAuthorIndex + 1].url"> {{ influencers[showAuthorIndex + 1]["url"]
-                        }}</a>
-                    </div>
-                    <div class="links">
-                        <p>{{ "Popular tags: " }}</p>
-                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 1])"
-                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
-                    </div>
-                    <div class="links">
-                        <p>{{ "Influencer Detail: " }}</p>
-                        <a :href="`/detail/${influencers[showAuthorIndex + 1].author_stats.id}`"> {{ "@" +
-                                influencers[showAuthorIndex + 1].author_stats.id
-                        }}</a>
-                    </div>
-                </div>
+                        <button class="indexButton" :class="{ active: activeBtn === 5 }" :disabled="rightNav()"
+                            v-on:click="rightMove()">></button>
             </div>
-
-            <div class="singleAuthor3">
-                <div v-if="flag(showAuthorIndex + 2)" class="sameBorder">
-                    <p>{{ "Author Nickname: " + influencers[showAuthorIndex + 2]["author_stats"]["nickname"] }}</p>
-
-                    <p>{{ "Author ID: " + influencers[showAuthorIndex + 2]["author_stats"]["id"] }}</p>
-
-                    <p>{{ "Follower Count: " + influencers[showAuthorIndex +
-                            2]["author_stats"]["stats"]["followerCount"]
-                    }}</p>
-
-                    <p>{{ "Like Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["heart"] }}</p>
-
-                    <p>{{ "Video Count: " + influencers[showAuthorIndex + 2]["author_stats"]["stats"]["videoCount"]
-                    }}
-                    </p>
-
-                    <div class="links">
-                        <p>{{ "Official site: " }}</p>
-                        <a :href="influencers[showAuthorIndex + 2].url"> {{ influencers[showAuthorIndex + 2]["url"]
-                        }}</a>
-                    </div>
-                    <div class="links">
-                        <p>{{ "Popular tags: " }}</p>
-                        <button class="tagButton" v-for="item in tagFrequency(influencers[showAuthorIndex + 2])"
-                            v-bind:key="item" v-on:click="filterTag(item)">{{ "#" + item }}</button>
-                    </div>
-                    <div class="links">
-                        <p>{{ "Influencer Detail: " }}</p>
-                        <a :href="`/detail/${influencers[showAuthorIndex + 2].author_stats.id}`"> {{ "@" +
-                                influencers[showAuthorIndex + 2].author_stats.id
-                        }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="index">
-            <button class="indexButton" :disabled="leftNav()" v-on:click="leftMove()">{{ "<" }} </button>
-
-                    <button class="indexButton" :class="{ active: activeBtn === 0 }" :disabled="checkIndex(0)"
-                        v-on:click="showAuthor(0)">{{ startIndex
-                        }}</button>
-                    <button class="indexButton" :class="{ active: activeBtn === 1 }" :disabled="checkIndex(1)"
-                        v-on:click="showAuthor(1)">{{ 1 +
-                                startIndex
-                        }}</button>
-                    <button class="indexButton" :class="{ active: activeBtn === 2 }" :disabled="checkIndex(2)"
-                        v-on:click="showAuthor(2)">{{ 2 +
-                                startIndex
-                        }}</button>
-                    <button class="indexButton" :class="{ active: activeBtn === 3 }" :disabled="checkIndex(3)"
-                        v-on:click="showAuthor(3)">{{ 3 +
-                                startIndex
-                        }}</button>
-                    <button class="indexButton" :class="{ active: activeBtn === 4 }" :disabled="checkIndex(4)"
-                        v-on:click="showAuthor(4)">{{ 4 +
-                                startIndex
-                        }}</button>
-
-                    <button class="indexButton" :class="{ active: activeBtn === 5 }" :disabled="rightNav()"
-                        v-on:click="rightMove()">></button>
         </div>
     </div>
 </template>
@@ -182,14 +199,17 @@
 <script>
 // import axios from "axios";
 import { GetInfluencerByTag } from "../api/influencer";
+import { AddLike, AddHistory } from "../api/user";
 
 export default {
-    components: {},
+    name: 'searchView',
     data() {
         return {
+            username: localStorage.getItem('username'),
             tag: "",
             influencers: 0,
             copy_influencers: 0,
+            origin_influencers: 0,
             // influencers: null, => impossible for vue3 to declare null variable during rendering
             startIndex: 1,
             left: false,
@@ -227,9 +247,10 @@ export default {
                     throw new Error('API does not return anything for frontend')
                 }
                 this.copy_influencers = this.influencers;
+                this.origin_influencers = this.influencers;
                 this.isLoading = false;
                 this.isShowing = true;
-                console.log("Author list has " + this.influencers.length + " authors");
+                // console.log("Author list has " + this.influencers.length + " authors");
             }).catch(err => {
                 console.log(err);
             });
@@ -267,10 +288,11 @@ export default {
             // startIndex >= 1
             // startIndex <= Mth.ceil(influencers.length / 3)
             this.showAuthorIndex = 3 * (curr + this.startIndex - 1);
-            console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
+            // console.log("Show authors index from " + (3 * (curr + this.startIndex - 1)) + " to " + (3 * (curr + this.startIndex)))
         },
         sort() {
             if (this.selected === "") {
+                this.influencers = this.origin_influencers;
                 return;
             }
             if (this.selected === "Followers: High to Low") {
@@ -370,10 +392,6 @@ export default {
             this.startIndexTag += 5;
         },
         filterTag(tagName) {
-            // console.log(tagName);
-            // console.log(this.copy_influencers[0]["video_list"][0]["label_list"]);
-            // console.log(this.copy_influencers[0]["video_list"][1]["label_list"]);
-            // console.log(this.copy_influencers[0]["video_list"][2]["label_list"]);
             this.activeTag = tagName;
             this.influencers = [];
             for (let k = 0; k < this.copy_influencers.length; k++) {
@@ -387,6 +405,34 @@ export default {
             }
             this.startIndex = 1;
             this.showAuthorIndex = 0;
+        },
+
+        addLike(index) {
+            AddLike(this.username, this.influencers[index]["author_stats"]["id"]).then(response => {
+                if (response.data.status === 'fail') {
+                    alert('Failed to add this influencer to Favourite')
+                } else if (response.data.status === "success") {
+                    alert('Successfully added this influencer to Favourite')
+                } else {
+                    console.log('error')
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+        },
+
+        addHistory(index) {
+            AddHistory(this.username, this.influencers[index]["author_stats"]["id"]).then(response => {
+                if (response.data.status === 'fail') {
+                    console.log('Failed to add this influencer to History')
+                } else if (response.data.status === "success") {
+                    console.log('Successfully added this influencer to History')
+                } else {
+                    console.log('error')
+                }
+            }).catch(err => {
+                console.log(err);
+            });
         }
     },
 }
@@ -394,6 +440,12 @@ export default {
 
 <style lang="css">
 @import "./SearchView/search.css";
+
+.search {
+    position: relative;
+    top: 50px;
+}
+
 /* .searchBox{
     display: inline;
 }
