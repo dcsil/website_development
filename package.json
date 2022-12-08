@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "coverage": "vitest run --coverage && coverage run -m pytest --source ./ && coverage report && coverage xml",
+    "coverage": "vitest run --coverage && coverage run -m pytest . && coverage report && coverage xml",
     "postinstall": "npm run build",
     "start": "gunicorn influco_web:app",
     "test": "vitest --watch false && coverage run -m pytest"
