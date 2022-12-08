@@ -32,8 +32,9 @@ jobs:
         with:
           coverageCommand: npm run coverage
           coverageLocations: |
-#              ${{github.workspace}}/client/coverage/lcov.info:lcov
             ${{github.workspace}}/coverage.xml
+#              ${{github.workspace}}/client/coverage/lcov.info:lcov
+
 #      - name: Run tests & coverage
 #        run: npm run coverage
 #        env:
