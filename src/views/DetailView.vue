@@ -45,7 +45,7 @@ export default {
     mounted() {
         const route = useRoute();
         const id = route.params.author_id;
-        console.log(id);
+        // console.log(id);
 
         GetInfluencer(id).then(response => {
             this.influencerInfo = response.data
@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         printLabel(lst) {
-            console.log(lst);
+            // console.log(lst);
             if (lst[0] === undefined) {
                 return "No tag existed!"
             } else {
