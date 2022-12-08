@@ -9,7 +9,7 @@
     "coverage": "vitest run --coverage",
     "postinstall": "npm run build",
     "start": "gunicorn influco_web:app",
-    "test": "vitest --watch false && python3 -m pytest test_flask"
+    "test": "vitest --watch false && coverage run -m pytest"
   },
   "dependencies": {
     "@sentry/tracing": "^7.17.4",
